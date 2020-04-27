@@ -32,10 +32,10 @@ public class bankapp extends HttpServlet {
       out.println("<TITLE>User Session wasn't found</TITLE>");
       out.println("</HEAD>");
     }else{
-    out.println("<HTML>");
-    out.println("<HEAD>");
-    out.println("<TITLE>Session was found</TITLE>");
-    out.println("</HEAD>");
+      out.println("<HTML>");
+      out.println("<BODY>");
+      out.println("<img src=\"https://i.kym-cdn.com/photos/images/newsfeed/001/483/599/dbb.jpg\" alt=\"Waling out here\">");
+      out.println("</BODY>");
   }
   }
 }
