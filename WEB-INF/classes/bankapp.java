@@ -16,26 +16,18 @@ public class bankapp extends HttpServlet {
 	{
     PrintWriter out =response.getWriter();
     try{
-      String login = request.getParameter("username");
-    }catch(NumberFormatException nfEx){
-          out.println("<HTML>");
-          out.println("<HEAD>");
-          out.println("<TITLE>RIP</TITLE>");
-          out.println("</HEAD>");
-    			// sendPage(response,"*** Invalid entry! ***");
+      HttpSession userSession = request.getSession();
+      String User = request.getParameter("username");
+      String passWord = request.getParameter("Password");
+      userSession.setAttribute("currentUser",User);
+    }catch(Exception e){
+          out.println("<html>");
+          out.println("<body>");
+          out.println("<img src=\"https://i.kym-cdn.com/photos/images/facebook/001/517/016/cf1.jpg\" alt=\"Waling out here\">");
+          out.println("</body>");
     			return;
     }
-    HttpSession userSession = request.getSession();
-    if(userSession == null){
-      out.println("<HTML>");
-      out.println("<HEAD>");
-      out.println("<TITLE>User Session wasn't found</TITLE>");
-      out.println("</HEAD>");
-    }else{
-      out.println("<HTML>");
-      out.println("<BODY>");
-      out.println("<img src=\"https://i.kym-cdn.com/photos/images/newsfeed/001/483/599/dbb.jpg\" alt=\"Waling out here\">");
-      out.println("</BODY>");
-  }
+
+
   }
 }
