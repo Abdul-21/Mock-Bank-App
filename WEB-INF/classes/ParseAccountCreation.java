@@ -30,8 +30,10 @@ getParameter returns a STR
 public class ParseAccountCreation extends HttpServlet {
 
     String firstName, lastName, dateOfBirth, phoneType, phoneNumber, username, password, accountType, idType;
-    double initialDeposit;
-    int idNumber; 
+    //double initialDeposit;
+    String initialDeposit;
+    //int idNumber; 
+    String idNumber;
 
     private static final long serialVersionUID = 102831973239L;
 
@@ -61,8 +63,10 @@ public class ParseAccountCreation extends HttpServlet {
         password = request.getParameter("Password");
         accountType = request.getParameter("Type of Account");
         idType = request.getParameter("unique ID");
-        initialDeposit = Double.parseDouble(request.getParameter("initial deposit"));
-        idNumber = Integer.parseInt(request.getParameter("ID number"));
+        //initialDeposit = Double.parseDouble(request.getParameter("initial deposit"));
+        initialDeposit = request.getParameter("initial deposit");
+        idNumber = request.getParameter("ID number");
+        //idNumber = Integer.parseInt(request.getParameter("ID number"));
 
         //Stores all the user info into an object
         Object[] userInfo = new Object[11];
@@ -79,13 +83,13 @@ public class ParseAccountCreation extends HttpServlet {
         userInfo[10] = idNumber;
 
         //Creates a CSV for storing user info
-        try (PrintWriter writer = new PrintWriter(new File("..webapps/Lab2/userAccount.csv"))) {
+        try (PrintWriter writer = new PrintWriter(new File("../webapps/Lab2/userAccount.csv"))) {
             StringBuilder sb = new StringBuilder();
            
             //Apply the header to the CSV
             String[] header = {"First Name,","Last Name","Date Of Birth","Phone Type","Phone Number","Username","Password","Type Of Account","ID type","Initial Deposit","ID Number"};
             sb.append(header[0]);
-            sb.append(",");
+            //sb.append(",");
             for(int i = 1; i<=header.length-1;i++){
                 sb.append(header[i]);
                 if(i != 10){
@@ -95,14 +99,18 @@ public class ParseAccountCreation extends HttpServlet {
             sb.append("\n");
 
             //Populate CSV with user info
-            for(int j = 0; j < header.length; j++){
+            for(int j = 0; j <= header.length-1; j++){
                 sb.append(userInfo[j]);
                 if(j != 10){
                     sb.append(',');
                 }
             }
             sb.append("\n");
+            //output.print(sb.toString());
             writer.write(sb.toString());
+
+            
+
         }
         catch (FileNotFoundException e) {
             System.out.println(e.getMessage());

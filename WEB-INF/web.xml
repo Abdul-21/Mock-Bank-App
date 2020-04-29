@@ -6,21 +6,26 @@
   version="3.1"
   metadata-complete="true">
 <display-name>Banking App</display-name>
+
 <welcome-file-list>
   <welcome-file>index.html</welcome-file>
 </welcome-file-list>
+
 <servlet>
   <servlet-name>bankapp</servlet-name>
   <servlet-class>bankapp</servlet-class>
 </servlet>
+
 <servlet>
   <servlet-name>ParseAccountCreation</servlet-name>
   <servlet-class>ParseAccountCreation</servlet-class>
 </servlet>
+
 <servlet-mapping>
   <servlet-name>bankapp</servlet-name>
   <url-pattern>/bankapp</url-pattern>
 </servlet-mapping>
+
 <servlet-mapping>
   <servlet-name>ParseAccountCreation</servlet-name>
   <url-pattern>/ParseAccountCreation</url-pattern>
