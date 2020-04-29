@@ -1,16 +1,37 @@
+<!DOCTYPE html>
 <html>
 <style>
 body {
-  background-image: url('https://i.kym-cdn.com/entries/icons/original/000/019/907/maxresdefault.jpg');
+  background-image: url('background.jpg');
   <!--background-repeat: no-repeat; -->
 }
 </style>
+<form method="POST" action="bankapp">
 <body>
+<CENTER>
 <h1>
-<font COLOR="white">
-Create a New User <br>
-To Be completed
-</h1>
+<font COLOR="PURPLE">
+To finish signing up, please complete all fields below.
 </font>
-</body>
+</h1><br>
+<label for="Username"><b><font COLOR="PURPLE">Username:</font></b></label>
+<input type="text" placeholder="Create a Username" name="Username"><br><br>
+<label for="Password"><b><font COLOR="PURPLE">Password:</font></b></label>
+<input type="text" placeholder="Create a Password" name="Password"><br><br>
+<label for="Type of Account"><b><font COLOR="PURPLE">Choose an Account Type:</font></b></label>
+
+<select id="Type of Account">
+  <option value="checkings">Checkings Account</option>
+  <option value="savings">Savings Account</option>
+  <option value="money market">Money Market Account</option>
+  <option value="retirement">Retirement Account</option>
+  <option value="brokerage">Brokerage Account</option>
+</select>
+
+
+<INPUT TYPE=Button onClick="parent.location = 'RegistrationSuccessful.htm'" value="Create Account"><br><br>
+</CENTER>
+
+
+<body>
 </html>
