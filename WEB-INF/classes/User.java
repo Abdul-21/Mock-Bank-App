@@ -1,4 +1,4 @@
-public class Client implements Serializable{
+public class User{
 
 private static final long serialVersionUID = -2284079786212849611L;
 private String firstName;
@@ -7,7 +7,7 @@ private String accountID;
 private String accountType;
 private String password;
 
-public Client(){
+public User(){
 
 }
 
@@ -24,7 +24,7 @@ public void setacctType(String type) {
 	accountType = type;
 }
 public void setpassWord(String Password) {
-	this.Password = Password;
+	this.password = Password;
 }
 
 public String getFirstName() {
@@ -40,7 +40,7 @@ public String getacctType() {
 	return accountType;
 }
 public String getPassword() {
-	return Password;
+	return password;
 }
 
 

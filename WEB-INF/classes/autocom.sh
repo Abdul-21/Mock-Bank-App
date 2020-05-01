@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-for i in 'ls *.java'
+for i in '*.java'
     do
     javac -cp ../../../../lib/servlet-api.jar $i
   done
