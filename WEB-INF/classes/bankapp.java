@@ -1,3 +1,4 @@
+package Bank;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
@@ -17,9 +18,19 @@ public class bankapp extends HttpServlet {
     PrintWriter out =response.getWriter();
     try{
       HttpSession userSession = request.getSession();
-      String User = request.getParameter("username");
+      String UserN = request.getParameter("username");
       String passWord = request.getParameter("Password");
-      userSession.setAttribute("currentUser",User);
+      userSession.setAttribute("currentUser",UserN);
+      HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
+      ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("custProfile.so")); //Read profile
+      User Objs= (User)UserObjects.readObject();
+      UserHmap.put(Objs.getFirstName(),Objs);
+      for(String Username : UserHmap.keySet()){
+        out.println("<html>");
+        out.println("<body>");
+        out.println("<p>"+Username+"<p>");
+        out.println("<body>");
+      }
     }catch(Exception e){
           out.println("<html>");
           out.println("<body>");

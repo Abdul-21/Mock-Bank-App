@@ -1,3 +1,5 @@
+package Bank;  
+
 public class User{
 
 private static final long serialVersionUID = -2284079786212849611L;
