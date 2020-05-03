@@ -1,16 +1,91 @@
+<!DOCTYPE html>
 <html>
 <style>
-body {
-  background-image: url('https://i.kym-cdn.com/entries/icons/original/000/019/907/maxresdefault.jpg');
-  <!--background-repeat: no-repeat; -->
-}
+    { margin: 0; padding: 0; }
+
+    html {
+        background: url('https://wallpaperaccess.com/full/729335.png') no-repeat center center fixed;
+        -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+        background-size: cover;
+    }
 </style>
+<form method="POST" action="AddCustomer">
 <body>
+<CENTER>
 <h1>
-<font COLOR="white">
-Create a New User <br>
-To Be completed
-</h1>
+<font COLOR="PURPLE">
+To finish signing up, please complete all fields below.
 </font>
+</h1><br>
+
+<div>
+<label for="first name"><b><font COLOR="PURPLE">First name:</font></b></label>
+<input type="text" placeholder="First Name" name="First Name"><br><br>
+
+<label for="last name"><b><font COLOR="PURPLE">Last name:</font></b></label>
+<input type="text" placeholder="Last Name" name="Last Name"><br><br>
+
+<label for="date of birth"><b><font COLOR="PURPLE">Date of Birth:</font></b></label>
+<input type="text" placeholder="Ex: 01-01-2020" name="Date of Birth"><br><br>
+
+<label for="Phone Type"><b><font COLOR="PURPLE">Phone type:</font></b></label>
+<body onload="form1.submit();">
+<form action="#" name="form1">
+<select id="Phone Type" name="Phone Type">
+  <option value="Home">Home</option>
+  <option value="Cell">Cell</option>
+  <option value="Work">Work</option>
+</select>
+
+<label for="Phone Number"><b><font COLOR="PURPLE">Phone Number:</font></b></label>
+<input type="text" placeholder="Ex: 111-111-1111" name="Phone Number"><br><br>
+
+</div>
+
+<div>
+<label for="Username"><b><font COLOR="PURPLE">Username:</font></b></label>
+<input type="text" placeholder="Create a Username" name="Username"><br><br>
+
+<label for="Password"><b><font COLOR="PURPLE">Password:</font></b></label>
+<input type="text" placeholder="Create a Password" name="Password"><br><br>
+
+</div>
+<div>
+<label for="Type of Account"><b><font COLOR="PURPLE">Account Type:</font></b></label>
+<select id="Type of Account" name="Type of Account">
+  <option value="Checkings">Checkings Account</option>
+  <option value="Savings">Savings Account</option>
+  <option value="Money market">Money Market Account</option>
+  <option value="Retirement">Retirement Account</option>
+  <option value="Brokerage">Brokerage Account</option>
+</select>
+
+<label for="initial deposit"><b><font COLOR="PURPLE">Initial Deposit:</font></b></label>
+<input type="text" placeholder="Dollar Amount(ex: $00.00)" name="initial deposit"><br><br>
+</div>
+
+<div>
+<label for="unique ID"><b><font COLOR="PURPLE">ID Type:</font></b></label>
+
+<select id="unique ID" name="unique ID">
+  <option value="Driver license">Driver License</option>
+  <option value="State id card">State ID Card</option>
+  <option value="Passport">Passport</option>
+  <option value="Military Id">Military ID</option>
+  <option value="Permanent Resident Card">Permanent Resident Card</option>
+</select>
+
+<label for="ID number"><b><font COLOR="PURPLE">ID number:</font></b></label>
+<input type="text" placeholder="ID Number" name="ID number"><br><br>
+</div>
+
+<a href="#" class="submit-button"></a>
+<!-- <INPUT TYPE=Submit onClick="parent.location = 'RegistrationSuccessful.html'" value="Create Account"><br><br> -->
+<INPUT TYPE=Submit onClick="parent.location = 'RegistrationSuccessful.html'" value="Create Account"><br><br>
+
+</CENTER>
+
 </body>
 </html>
