@@ -28,10 +28,6 @@ public class bankapp extends HttpServlet {
           User Objs= (User)UserObjects.readObject();
           UserHmap.put(Objs.getUserName(),Objs);
         }catch(Exception e){
-          out.println("<html>");
-          out.println("<body>");
-          out.println("<br>Exception thrown:"+e+"<br>");
-          out.println("</body>");
           break;
       }
     }
