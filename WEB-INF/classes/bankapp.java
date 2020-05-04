@@ -37,7 +37,10 @@ public class bankapp extends HttpServlet {
           throw new IllegalArgumentException("Unable To Recognized Account Credentials");
         }
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 =======
+=======
+>>>>>>> Stashed changes
         userSession.setAttribute("currentUserObj",currentUser);
         //Reads from acctFile.txt into Account object.
         Account currentUserAccount = new Account();
@@ -75,6 +78,10 @@ public class bankapp extends HttpServlet {
         //Delete Account
 
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
 
 
