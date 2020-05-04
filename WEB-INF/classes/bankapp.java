@@ -1,3 +1,4 @@
+import bank.*;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
@@ -9,33 +10,74 @@ public class bankapp extends HttpServlet {
   private static final long serialVersionUID = 102831973239L;
 
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+    doPost(request,response);
   }
   public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws IOException,ServletException
 	{
     PrintWriter out =response.getWriter();
     try{
-      String login = request.getParameter("username");
-    }catch(NumberFormatException nfEx){
-          out.println("<HTML>");
-          out.println("<HEAD>");
-          out.println("<TITLE>RIP</TITLE>");
-          out.println("</HEAD>");
-    			// sendPage(response,"*** Invalid entry! ***");
+      HttpSession userSession = request.getSession();
+      String UserN = request.getParameter("username");
+      String passWord = request.getParameter("Password");
+      userSession.setAttribute("currentUser",UserN);
+      HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
+      ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("userFile.txt")); //Read profile
+      while(true){
+        try{
+          User Objs= (User)UserObjects.readObject();
+          UserHmap.put(Objs.getUserName(),Objs);
+        }catch(Exception e){
+          break;
+      }
+    }
+      if(UserHmap.get(UserN)!=null){
+        User currentUser= UserHmap.get(UserN);
+        if(!(currentUser.getPassword().equals(passWord) && currentUser.getUserName().equals(UserN))){
+          throw new IllegalArgumentException("Unable To Recognized Account Credentials");
+        }
+                //Reads from acctFile.txt into Account object.
+        Account currentUserAccount = new Account();
+        HashMap<Long, Account> AccountHmap = new HashMap<Long, Account>(); //Hold customer ID, and account object info.
+        ObjectInputStream readAccount = new ObjectInputStream(new FileInputStream("acctFile.txt")); 
+        while(true){
+          try{
+            currentUserAccount = (Account)readAccount.readObject();
+            AccountHmap.put(currentUserAccount.getCustomerID(),currentUserAccount);
+          }catch(Exception e){
+            break;
+        }
+      }
+        out.println("<html>");
+        out.println("<body>");
+        out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
+        out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
+        out.println("<h2> Account Balance:"+currentUserAccount.getBalanace()+"</h2>");
+        out.println("</body>");
+
+
+      
+      //Now that Account object is populated, display information
+
+
+
+
+
+
+
+
+      }else{
+        throw new IllegalArgumentException("User Account Was Not Found");
+      }
+    }catch(Exception e){
+          out.println("<html>");
+          out.println("<body>");
+          out.println("<img src=\"https://i.kym-cdn.com/photos/images/facebook/001/517/016/cf1.jpg\" alt=\"Waling out here\">");
+          out.println("<br>Exception thrown:"+e+"<br>");
+          out.println("</body>");
     			return;
     }
-    HttpSession userSession = request.getSession();
-    if(userSession == null){
-      out.println("<HTML>");
-      out.println("<HEAD>");
-      out.println("<TITLE>User Session wasn't found</TITLE>");
-      out.println("</HEAD>");
-    }else{
-      out.println("<HTML>");
-      out.println("<BODY>");
-      out.println("<img src=\"https://i.kym-cdn.com/photos/images/newsfeed/001/483/599/dbb.jpg\" alt=\"Waling out here\">");
-      out.println("</BODY>");
-  }
+
+
   }
 }
