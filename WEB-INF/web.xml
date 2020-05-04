@@ -18,6 +18,22 @@
   <url-pattern>/bankapp</url-pattern>
 </servlet-mapping>
 <servlet>
+  <servlet-name>TransferMoney</servlet-name>
+  <servlet-class>TransferMoney</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>TransferMoney</servlet-name>
+  <url-pattern>/TransferMoney</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>AddAnotherAccountToUser</servlet-name>
+  <servlet-class>AddAnotherAccountToUser</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>AddAnotherAccountToUser</servlet-name>
+  <url-pattern>/AddAnotherAccountToUser</url-pattern>
+</servlet-mapping>
+<servlet>
   <servlet-name>AddCustomer</servlet-name>
   <servlet-class>AddCustomer</servlet-class>
 </servlet>
