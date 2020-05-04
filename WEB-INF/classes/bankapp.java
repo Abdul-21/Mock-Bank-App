@@ -50,6 +50,7 @@ public class bankapp extends HttpServlet {
         }
       }
        //Now that Account object is populated, display information
+        userSession.setAttribute("currentUserAccount",currentUserAccount);
         out.println("<html>");
         out.println("<body>");
         out.println("<FORM METHOD='POST' ACTION='withdraw'>");

@@ -33,4 +33,12 @@
   <servlet-name>withdraw</servlet-name>
   <url-pattern>/withdraw</url-pattern>
 </servlet-mapping>
+<servlet>
+  <servlet-name>updateBankApp</servlet-name>
+  <servlet-class>updateBankApp</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>updateBankApp</servlet-name>
+  <url-pattern>/updateBankApp</url-pattern>
+</servlet-mapping>
 </web-app>
