@@ -5,6 +5,7 @@ import java.io.Serializable;
 public class Account implements Serializable{
     private static final long serialVersionUID = 123L;
     private String CustomerName;
+    private double initialDeposit;
     private double balance;
     private long CustomerID;
 
@@ -13,6 +14,14 @@ public class Account implements Serializable{
     }
     public double getBalance() {
         return balance;
+    }
+
+    public void setInitialDeposit(Double amount) {
+        initialDeposit = amount;
+    }
+
+    public Double getInitialDeposit() {
+        return initialDeposit;
     }
 
     public void setCustomerID(long customerID) {
