@@ -25,4 +25,12 @@
   <servlet-name>AddCustomer</servlet-name>
   <url-pattern>/AddCustomer</url-pattern>
 </servlet-mapping>
+<servlet>
+  <servlet-name>withdraw</servlet-name>
+  <servlet-class>withdraw</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>withdraw</servlet-name>
+  <url-pattern>/withdraw</url-pattern>
+</servlet-mapping>
 </web-app>

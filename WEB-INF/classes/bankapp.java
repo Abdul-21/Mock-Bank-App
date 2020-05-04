@@ -36,11 +36,55 @@ public class bankapp extends HttpServlet {
         if(!(currentUser.getPassword().equals(passWord) && currentUser.getUserName().equals(UserN))){
           throw new IllegalArgumentException("Unable To Recognized Account Credentials");
         }
+<<<<<<< Updated upstream
+=======
+        userSession.setAttribute("currentUserObj",currentUser);
+        //Reads from acctFile.txt into Account object.
+        Account currentUserAccount = new Account();
+        HashMap<Long, Account> AccountHmap = new HashMap<Long, Account>(); //Hold customer ID, and account object info.
+        ObjectInputStream readAccount = new ObjectInputStream(new FileInputStream("acctFile.txt"));
+        while(true){
+          try{
+            currentUserAccount = (Account)readAccount.readObject();
+            AccountHmap.put(currentUserAccount.getCustomerID(),currentUserAccount);
+          }catch(Exception e){
+            break;
+        }
+      }
+       //Now that Account object is populated, display information
+>>>>>>> Stashed changes
         out.println("<html>");
         out.println("<body>");
+        out.println("<FORM METHOD='POST' ACTION='withdraw'>");
         out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
         out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
+<<<<<<< Updated upstream
         out.println("</body>");
+=======
+        currentUserAccount.deposit(1.00);
+        out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
+        out.println("<h2> Transaction History: </h2>");
+        out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
+        out.println("<INPUT TYPE='Submit' NAME='withdraw' VALUE='withdraw'>");
+        out.println("</body>");
+        out.println("")
+        //Now to display actions to take
+        //Transfer between account - if sufficient balance
+        //History of transaction
+        //View balances (name: $ amount, optional ID/key)
+        //Delete Account
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> Stashed changes
       }else{
         throw new IllegalArgumentException("User Account Was Not Found");
       }
