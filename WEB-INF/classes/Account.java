@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class Account implements Serializable{
     private static final long serialVersionUID = 123L;
     private String CustomerName;
-    private double balanace;
+    private double balance;
     private long CustomerID;
 
     public Account(){
-        balanace=0.00;
+        balance=0.00;
     }
-    public double getBalanace() {
-        return balanace;
+    public double getBalance() {
+        return balance;
     }
 
     public void setCustomerID(long customerID) {
@@ -32,10 +32,10 @@ public class Account implements Serializable{
     }
 
     public double withdraw(double amount){
-        return balanace-=amount;
+        return balance-=amount;
     }
 
     public double deposit(double amount){
-        return balanace+=amount;
+        return balance+=amount;
     }
 }

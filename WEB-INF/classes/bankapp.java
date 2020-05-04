@@ -48,16 +48,23 @@ public class bankapp extends HttpServlet {
             break;
         }
       }
+       //Now that Account object is populated, display information
         out.println("<html>");
         out.println("<body>");
         out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
         out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
-        out.println("<h2> Account Balance:"+currentUserAccount.getBalanace()+"</h2>");
+        out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
+        out.println("<h2> Transaction History: </h2>");
+        out.println("<h2> Initial Deposit of $"+currentUserAccount.getBalance()+"</h2>");
         out.println("</body>");
+        //Now to display actions to take 
+        //Transfer between account - if sufficient balance
+        //History of transaction
+        //View balances (name: $ amount, optional ID/key)
+        //Delete Account
 
 
       
-      //Now that Account object is populated, display information
 
 
 
