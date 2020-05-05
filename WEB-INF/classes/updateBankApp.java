@@ -14,16 +14,19 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
-      if(userSession.getAttribute("action").equals("Withdraw"))
+      if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
-      else if(userSession.getAttribute("action").equals("Deposit"))
+      }
+      else if(userSession.getAttribute("action").equals("Deposit")){
         Deposit(response,request);
+      }
       // else if(userSession.getAttribute("action").equals("Close Account"))
       //   CloseAcct(response, request);
       // else if(userSession.getAttribute("action").equals("New Account"))
       //   OpenAcct(request);
-      // else if(userSession.getAttribute("action").equals("Transfer"))
-      //   Transfer(response, request);
+      else if(userSession.getAttribute("action").equals("Transfer")){
+        Transfer(response, request);
+      }
     }
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
@@ -55,6 +58,52 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         altAcctobj.deposit(amount);
         showmenu(altAcctobj,Userobj,response);
       }
+    }
+
+    public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
+      HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();
+      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
+      User Userobj= (User)userSession.getAttribute("currentUserObj");
+      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+
+      int altAcctObjID = (int)altAcctobj.getCustomerID();
+      int AccountObjID = (int)Accountobj.getCustomerID();
+
+      int fromID =Integer.parseInt(request.getParameter("fromID"));
+      int toID =Integer.parseInt(request.getParameter("toID"));
+      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
+
+      //Assign ID to proper account
+      if(fromID == altAcctObjID){
+        double bal = Accountobj.getBalance();
+        //Ensures that there is sufficient funds
+        if(amountToTransfer > bal){
+          out.println("INSUFFICIENT BALANCE");
+        }
+        //There is enough funds now to transfer
+        else{
+          Accountobj.withdraw(amountToTransfer);
+          altAcctobj.deposit(amountToTransfer);
+          overWriteAccount(Accountobj,response,request);
+          overWriteAccount(altAcctobj,response,request);
+          showmenu(Accountobj, Userobj, response);
+        }
+      }
+      else if(fromID == altAcctObjID){
+        double bal = altAcctobj.getBalance();
+        if(amountToTransfer > bal){
+          out.println("INSUFFICIENT BALANCE");
+        }
+        else{
+          altAcctobj.withdraw(amountToTransfer);
+          Accountobj.deposit(amountToTransfer);
+          overWriteAccount(Accountobj,response,request);
+          overWriteAccount(altAcctobj,response,request);
+          showmenu(altAcctobj, Userobj,response);
+        }
+      }
+      
     }
     public void showmenu(Account currentUserAccount, User currentUser,HttpServletResponse response)throws IOException{
       PrintWriter out =response.getWriter();
@@ -92,5 +141,29 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</form>");
       out.println("</body>");
       out.println("</body>");
+    }
+
+    private void overWriteAccount(Account accountToOverwrite, HttpServletResponse response, HttpServletRequest request) throws IOException{
+
+      HttpSession userSession = request.getSession();
+      PrintWriter out = response.getWriter();
+      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
+      User Userobj= (User)userSession.getAttribute("currentUserObj");
+      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+
+      File selectedFile = new File(" ");
+      if(accountToOverwrite == Accountobj){
+        selectedFile = new File("userFile.txt");//object files for other class to get user data
+      }
+      else if(accountToOverwrite == altAcctobj){
+        selectedFile = new File("altAcctFile.txt");//object files for other class to get account data
+      }
+
+      FileOutputStream selectedOutFile =  new FileOutputStream(selectedFile,true);
+
+      AppendingObjectOutputStream selectWrite = new AppendingObjectOutputStream(selectedOutFile);
+
+      selectWrite.writeObject(accountToOverwrite);
+      selectWrite.close();
     }
 }
