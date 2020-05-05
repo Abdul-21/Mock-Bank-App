@@ -34,11 +34,43 @@
   <url-pattern>/withdraw</url-pattern>
 </servlet-mapping>
 <servlet>
+  <servlet-name>TransferMoney</servlet-name>
+  <servlet-class>TransferMoney</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>TransferMoney</servlet-name>
+  <url-pattern>/TransferMoney</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>AddAnotherAccountToUser</servlet-name>
+  <servlet-class>AddAnotherAccountToUser</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>AddAnotherAccountToUser</servlet-name>
+  <url-pattern>/AddAnotherAccountToUser</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>AddAnotherAccountScreen</servlet-name>
+  <servlet-class>AddAnotherAccountScreen</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>AddAnotherAccountScreen</servlet-name>
+  <url-pattern>/AddAnotherAccountScreen</url-pattern>
+</servlet-mapping>
+<servlet>
   <servlet-name>updateBankApp</servlet-name>
   <servlet-class>updateBankApp</servlet-class>
 </servlet>
 <servlet-mapping>
   <servlet-name>updateBankApp</servlet-name>
   <url-pattern>/updateBankApp</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>deposit</servlet-name>
+  <servlet-class>deposit</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>deposit</servlet-name>
+  <url-pattern>/deposit</url-pattern>
 </servlet-mapping>
 </web-app>

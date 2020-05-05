@@ -1,4 +1,5 @@
 package bank;
+import java.util.*;
 import java.io.Serializable;
 
 public class User implements Serializable{
@@ -10,7 +11,7 @@ private String userName;
 private String accountID;
 private String accountType;
 private String password;
-
+private List<Account> allUserAccount = new ArrayList<Account>();
 public User(){
 
 }
@@ -32,6 +33,14 @@ public void setacctType(String type) {
 }
 public void setPassword(String Password) {
 	this.password = Password;
+}
+
+public void addAnotherAccount(Account toAdd){
+	this.allUserAccount.add(toAdd);
+}
+
+public List<Account> getAllAccounts(){
+	return allUserAccount;
 }
 
 public String getFirstName() {

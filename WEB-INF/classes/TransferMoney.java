@@ -17,9 +17,20 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         HttpSession action = request.getSession();
         HttpSession userSession = request.getSession();
 
+        String UserN = (String)userSession.getAttribute("currentUser");
         User Userobj= (User)userSession.getAttribute("currentUserObj");
-        Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
+        Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
+        Account altAcctobj=(Account)userSession.getAttribute("altAcct");
 
+        String accountObjType = (String)Accountobj.getacctType();
+        String accountObjID = String.valueOf(Accountobj.getCustomerID());
+        String accountObjBal = String.valueOf(Accountobj.getBalance());
+
+        String altAcctObjType = (String)altAcctobj.getacctType();
+        String altAcctObjID = String.valueOf(altAcctobj.getCustomerID());
+        String altAcctObjBal = String.valueOf(altAcctobj.getBalance());
+        userSession.setAttribute("action","Transfer");
+        /*
         out.println("<html>");
         out.println("<body>");
         out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
@@ -32,6 +43,24 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         out.println("<center><h4>"+Userobj.getFirstName()+", Please put in an amount to send:</h4>");
         out.println("Amount Desired: <INPUT TYPE=number Name='Amount'><br>");
         out.println("<INPUT TYPE='Submit' NAME='submitTransfer' VALUE='submitTransfer'></center>");
+        out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+        out.println("</body>");
+        */
+        out.println("<html>");
+        out.println("<body>");
+        out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
+        out.println("<CENTER><h1>Transfer money screen</h1><br>");
+        out.println("<h2>Available accounts: </h2><br>");
+        out.println("<h2>Account Type: "+accountObjType+" with ID: "+accountObjID+" and a balance of "+accountObjBal+"</h2><br>");
+        out.println("<h2>Account Type: "+altAcctObjType+" with ID: "+altAcctObjID+" and a balance of "+altAcctObjBal+"</h2><br>");
+        out.println("<h2>To finish the transfer enter the following: </h2><br>");
+        out.println("ID to transfer from: <INPUT TYPE=number Name='fromID'><br>");
+        out.println("<br>");
+        out.println("ID to transfer to: <INPUT TYPE=number Name='toID'><br>");
+        out.println("<center><h4>"+Userobj.getFirstName()+", Please put in an amount to send:</h4>");
+        out.println("<label for='Amount'><b><font COLOR='PURPLE'>Amount to transfer:</font></b></label>");
+        out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
+        out.println("<INPUT TYPE='Submit' NAME='submitTransfer' VALUE='Submit Transfer'></center>");
         out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
         out.println("</body>");
     }

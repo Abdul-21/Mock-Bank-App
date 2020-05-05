@@ -23,7 +23,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       newUser.setUserName(request.getParameter("Username"));
       newUser.setPassword(request.getParameter("Password"));
 
-      newAccount.deposit(Double.parseDouble(request.getParameter("initial deposit")));
+      double amount = Double.parseDouble(request.getParameter("initial deposit"));
+      newAccount.deposit(amount);
+      newAccount.setInitialDeposit(amount);
       newAccount.setCustomerID(rand.nextInt(1000));
       newAccount.setCustomerName(newUser.getFirstName()+" "+newUser.getLastName());
 
@@ -70,20 +72,5 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
     userWrite.close();
     acctWrite.close();
-  }
-  public class AppendingObjectOutputStream extends ObjectOutputStream {
-
-    public AppendingObjectOutputStream(OutputStream out) throws IOException {
-      super(out);
-    }
-
-    @Override
-    protected void writeStreamHeader() throws IOException {
-      // do not write a header, but reset:
-      // this line added after another question
-      // showed a problem with the original
-      reset();
-    }
-
   }
 }
