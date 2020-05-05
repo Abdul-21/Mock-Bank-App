@@ -21,35 +21,6 @@ public class bankapp extends HttpServlet {
       String UserN = request.getParameter("username");
       String passWord = request.getParameter("Password");
       userSession.setAttribute("currentUser",UserN);
-<<<<<<< Updated upstream
-=======
-
-
-      //Metatags using Java Servlets
-
-      out.println("<head>");
-      response.setContentType("text/html");
-      response.setCharacterEncoding("UTF-8");
-      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-      response.setHeader("Pragma", "no-cache");
-      response.setDateHeader("expires", 0);
-      response.setHeader("Expires", "0");
-      out.println("</head>");
-
-      //Equivalent in HTML
-      //out.println("<META HTTP-Equiv='BackButton' Content='Width:30; Left:50; Top:50; Height:50; Visibility:Visible'>");
-      /*
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        out.println("<head>");
-        //out.println("<meta HTTP-Equiv='BackButton' Content='Visibility:Visible'>");
-        out.println("<meta HTTP-Equiv='BackButton' Content='Width:30; Left:50; ImageUp:url('http://myaddress/back_up.gif'); ImageDown:url('http://myaddress/back_down.gif'); Visibility:Visible'>");
-        out.println("<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate'>");
-        out.println("<meta http-equiv='Pragma' content='no-cache'>");
-        out.println("<meta http-equiv='Expires' content='0'>");
-        out.println("</head>");
-      */
->>>>>>> Stashed changes
       HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
       ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("userFile.txt")); //Read profile
       while(true){
@@ -89,23 +60,7 @@ public class bankapp extends HttpServlet {
         out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
         out.println("<h2> Transaction History: </h2>");
         out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
-<<<<<<< Updated upstream
         out.println("<INPUT TYPE='Submit' NAME='withdraw' VALUE='withdraw'>");
-=======
-        out.println("<br>");
-        if(alternateAccount.getInitialDeposit() != 0){
-          out.println("<h2> Second Account Summary:"+alternateAccount.getacctType()+"</h2>");
-          out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
-          out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
-          out.println("<h2> Transaction History: </h2>");
-          out.println("<h2> Initial Deposit of $"+alternateAccount.getInitialDeposit()+"</h2>");
-        }
-        out.println("<button formaction='withdraw'>Withdraw</button>");
-        out.println("<button formaction='deposit'>Deposit</button>");
-        out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-        out.println("<button formaction='AddCustomer'>Create another account</button>");
-        out.println("</form>");
->>>>>>> Stashed changes
         out.println("</body>");
         //Now to display actions to take
         //Transfer between account - if sufficient balance
