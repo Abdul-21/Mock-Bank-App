@@ -20,6 +20,13 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
       Account altAcctobj=(Account)userSession.getAttribute("altAcct");
       userSession.setAttribute("action","Deposit");
+
+      String accountObjType = (String)Accountobj.getacctType();
+      String accountObjID = String.valueOf(Accountobj.getCustomerID());
+      String altAcctObjType = (String)altAcctobj.getacctType();
+      String altAcctObjID = String.valueOf(altAcctobj.getCustomerID());
+
+      /*
       out.println("<html>");
       out.println("<title>Deposit</title>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
@@ -30,6 +37,25 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
       out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
       out.println("<body>");
+      out.println("</body>");
+      */
+
+      out.println("<html>");
+      out.println("<body>");
+      out.println("<title>Deposit</title>");
+      out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
+      out.println("<center><h2>"+Userobj.getFirstName()+", Please enter the following:</h2>");
+      out.println("ID to deposit to: <INPUT TYPE=number Name='AcctID'>");
+      out.println("<select id='choose-acct' name=choose-acct>");
+      //out.println("<option value='"+accountObjType+"'>"+"Acct Type: "+accountObjType+" ID:"+Accountobj.getCustomerID()+"</option>");
+      //out.println("<option value='"+altAcctObjType+"'>"+"Acct Type: "+altAcctObjType+" ID:"+altAcctobj.getCustomerID()+"</option>");
+      out.println("<option value='acct1'>"+"Put into: "+accountObjID+" with type: "+accountObjType+"</option>");
+      out.println("<option value='acct1'>"+"Put into: "+altAcctObjID+" with type: "+altAcctObjType+"</option>");
+      out.println("</select>");
+      out.println("<label for='Amount'>Amount to Deposit: </b></label>");
+      out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
+      //out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
+      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
       out.println("</body>");
 }
 }

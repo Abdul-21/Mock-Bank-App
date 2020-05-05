@@ -31,14 +31,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<title>withdraw</title>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
       out.println("<center><h2>"+Userobj.getFirstName()+", Please enter the following:</h2>");
-      out.println("ID to transfer to: <INPUT TYPE=number Name='AcctID'>");
+      out.println("ID to withdraw from: <INPUT TYPE=number Name='AcctID'>");
       out.println("<select id='choose-acct' name=choose-acct>");
       //out.println("<option value='"+accountObjType+"'>"+"Acct Type: "+accountObjType+" ID:"+Accountobj.getCustomerID()+"</option>");
       //out.println("<option value='"+altAcctObjType+"'>"+"Acct Type: "+altAcctObjType+" ID:"+altAcctobj.getCustomerID()+"</option>");
       out.println("<option value='acct1'>"+"Take from: "+accountObjID+" with type: "+accountObjType+"</option>");
       out.println("<option value='acct1'>"+"Take from: "+altAcctObjID+" with type: "+altAcctObjType+"</option>");
       out.println("</select>");
-      out.println("<label for='Amount'>Amount Desired</b></label>");
+      out.println("<label for='Amount'>Amount to Withdraw: </b></label>");
       out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
       //out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
       out.println("<INPUT TYPE='Submit' NAME='Withdraw' VALUE='Submit'></center>");

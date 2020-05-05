@@ -22,6 +22,31 @@ public class bankapp extends HttpServlet {
       String passWord = request.getParameter("Password");
       userSession.setAttribute("currentUser",UserN);
 
+
+      //Metatags using Java Servlets
+      
+      out.println("<head>");
+      response.setContentType("text/html");
+      response.setCharacterEncoding("UTF-8");
+      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      response.setHeader("Pragma", "no-cache");
+      response.setDateHeader("expires", 0);
+      response.setHeader("Expires", "0");
+      out.println("</head>");
+
+      //Equivalent in HTML
+      //out.println("<META HTTP-Equiv='BackButton' Content='Width:30; Left:50; Top:50; Height:50; Visibility:Visible'>");
+      /*
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        out.println("<head>");
+        //out.println("<meta HTTP-Equiv='BackButton' Content='Visibility:Visible'>");
+        out.println("<meta HTTP-Equiv='BackButton' Content='Width:30; Left:50; ImageUp:url('http://myaddress/back_up.gif'); ImageDown:url('http://myaddress/back_down.gif'); Visibility:Visible'>");
+        out.println("<meta http-equiv='Cache-Control' content='no-cache, no-store, must-revalidate'>");
+        out.println("<meta http-equiv='Pragma' content='no-cache'>");
+        out.println("<meta http-equiv='Expires' content='0'>");
+        out.println("</head>");
+      */
       HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
       ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("userFile.txt")); //Read profile
       while(true){
