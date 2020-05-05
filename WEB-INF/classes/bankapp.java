@@ -13,7 +13,7 @@ public class bankapp extends HttpServlet {
     doPost(request,response);
   }
   public void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws IOException,ServletException
+			throws IOException,FileNotFoundException,ServletException
 	{
     PrintWriter out =response.getWriter();
     try{
@@ -21,6 +21,7 @@ public class bankapp extends HttpServlet {
       String UserN = request.getParameter("username");
       String passWord = request.getParameter("Password");
       userSession.setAttribute("currentUser",UserN);
+
       HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
       ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("userFile.txt")); //Read profile
       while(true){
@@ -51,14 +52,11 @@ public class bankapp extends HttpServlet {
       }
 
       Account alternateAccount = new Account();
-      ObjectInputStream readAltAccount = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
-      while(true){
-        try{
-          alternateAccount = (Account)readAltAccount.readObject();
-        }catch(Exception e){
-          break;
+      File tempFile = new File("../bin/altAcctFile.txt");
+      if(tempFile.exists() == true){
+        ObjectInputStream readAlt = new ObjectInputStream(new FileInputStream("altAcctFile.txt")); 
+        alternateAccount = (Account)readAlt.readObject();
       }
-    }
        //Now that Account object is populated, display information
         userSession.setAttribute("currentUserAccount",currentUserAccount);
         out.println("<html>");
@@ -107,7 +105,37 @@ public class bankapp extends HttpServlet {
           out.println("</body>");
     			return;
     }
+  }
 
+  public void addAccountToExisting(HttpServletResponse response) throws IOException,ServletException{
+    Account balternateAccount = new Account();
+    PrintWriter out =response.getWriter();
+    ObjectInputStream readAltAccount = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
+    while(true){
+      try{
+        balternateAccount = (Account)readAltAccount.readObject();
+      }catch(Exception e){
+        break;
+    }
+  }
+    out.println("<html>");
+    out.println("<body>");
+    out.println("<FORM METHOD='POST' ACTION='AddAnotherAccountToUser'>");
+    out.println("<CENTER><h1>Complete the following:</b1>");
 
+    out.println("<label for='type-of-account'><b><font COLOR='PURPLE'>Account Type:</font></b></label>");
+    out.println("<select id='type-of-account' name='type-of-account'>");
+    out.println("<option value='Checkings'>Checkings Account</option>");
+    out.println("<option value='Savings'>Savings Account</option>");
+    out.println("<option value='Money market'>Money market Account</option>");
+    out.println("<option value='Retirement'>Retirement Account</option>");
+    out.println("<option value='Brokerage'>Brokerage Account</option>");
+    out.println("</select>");
+
+    out.println("<label for='initial-deposit'><b><font COLOR='PURPLE'>Initial Deposit:</font></b></label>");
+    out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='initial-deposit'><br><br>");
+
+    out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
+    out.println("</body>");
   }
 }
