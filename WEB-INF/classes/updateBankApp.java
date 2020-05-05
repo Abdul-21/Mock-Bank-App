@@ -14,6 +14,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -38,10 +39,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       String AcctID= request.getParameter("AcctID");
       if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
       Accountobj.withdraw(amount);
-      showmenu(Accountobj,Userobj,response);
+      showmenu(Accountobj,Userobj,response,request);
       }else{
         altAcctobj.withdraw(amount);
-        showmenu(altAcctobj,Userobj,response);
+        showmenu(altAcctobj,Userobj,response,request);
       }
     }
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
@@ -53,10 +54,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       String AcctID= request.getParameter("AcctID");
       if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
       Accountobj.deposit(amount);
-      showmenu(Accountobj,Userobj,response);
+      showmenu(Accountobj,Userobj,response,request);
       }else{
         altAcctobj.deposit(amount);
-        showmenu(altAcctobj,Userobj,response);
+        showmenu(altAcctobj,Userobj,response,request);
       }
     }
 
@@ -64,8 +65,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       HttpSession userSession = request.getSession();
       PrintWriter out =response.getWriter();
       Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
       Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+      User Userobj= (User)userSession.getAttribute("currentUserObj");
+      
 
       int altAcctObjID = (int)altAcctobj.getCustomerID();
       int AccountObjID = (int)Accountobj.getCustomerID();
@@ -75,38 +77,70 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
 
       //Assign ID to proper account
-      if(fromID == altAcctObjID){
+      if(fromID == AccountObjID){
         double bal = Accountobj.getBalance();
         //Ensures that there is sufficient funds
+        
         if(amountToTransfer > bal){
-          out.println("INSUFFICIENT BALANCE");
+          out.println("<html>");
+          out.println("<body>");
+          out.println("<CENTER><h1>INSUFFICIENT BALANCE</b1>");
+          out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+          out.println("</body>");
+          return;
         }
+        
         //There is enough funds now to transfer
-        else{
-          Accountobj.withdraw(amountToTransfer);
-          altAcctobj.deposit(amountToTransfer);
-          overWriteAccount(Accountobj,response,request);
-          overWriteAccount(altAcctobj,response,request);
-          showmenu(Accountobj, Userobj, response);
-        }
+        
+        Accountobj.withdraw(amountToTransfer);
+        altAcctobj.deposit(amountToTransfer);
+        Accountobj.setCustomerID(fromID);
       }
       else if(fromID == altAcctObjID){
         double bal = altAcctobj.getBalance();
         if(amountToTransfer > bal){
+          out.println("<html>");
+          out.println("<body>");
+          out.println("<CENTER><h1>INSUFFICIENT BALANCE</b1>");
+          out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+          out.println("</body>");
+          return;
+        }
+        altAcctobj.withdraw(amountToTransfer);
+        Accountobj.deposit(amountToTransfer);
+        altAcctobj.setCustomerID(fromID);
+
+      }
+      writeToFile(Userobj, Accountobj);
+      writeToFile(Userobj, altAcctobj);
+      showmenu(altAcctobj,Userobj,response,request);
+      /*
+      else if(fromID == altAcctObjID){
+        double bal = altAcctobj.getBalance();
+      
+        if(amountToTransfer > bal){
           out.println("INSUFFICIENT BALANCE");
         }
-        else{
-          altAcctobj.withdraw(amountToTransfer);
-          Accountobj.deposit(amountToTransfer);
-          overWriteAccount(Accountobj,response,request);
-          overWriteAccount(altAcctobj,response,request);
-          showmenu(altAcctobj, Userobj,response);
-        }
-      }
+        
+        
+        altAcctobj.withdraw(amountToTransfer);
+        Accountobj.deposit(amountToTransfer);
+        
+        showmenu(Accountobj,Userobj,response);
+        */
       
+      //writeToFile(Userobj, Accountobj);
+      //writeToFile(Userobj, altAcctobj);
+
     }
-    public void showmenu(Account currentUserAccount, User currentUser,HttpServletResponse response)throws IOException{
+    public void showmenu(Account currentUserAccount, User currentUser,HttpServletResponse response, HttpServletRequest request)throws IOException{
       PrintWriter out =response.getWriter();
+      HttpSession userSession = request.getSession();
+
+      String UserN = (String)userSession.getAttribute("currentUser");
+      User Userobj= (User)userSession.getAttribute("currentUserObj");
+      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
+      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
 
       Account alternateAccount = new Account();
       File tempFile = new File("../bin/altAcctFile.txt");
@@ -121,16 +155,16 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<body>");
       out.println("<FORM METHOD='POST'>");
       out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
-      out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
-      out.println("<h2> Account ID:"+currentUserAccount.getCustomerID()+"</h2>");
-      out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
+      out.println("<h2> Account Summary:"+Accountobj.getacctType()+"</h2>");
+      out.println("<h2> Account ID:"+Accountobj.getCustomerID()+"</h2>");
+      out.println("<h2> Account Balance: $"+Accountobj.getBalance()+"</h2>");
       out.println("<h2> Transaction History: </h2>");
-      out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
+      out.println("<h2> Initial Deposit of $"+Accountobj.getInitialDeposit()+"</h2>");
       out.println("<br>");
       if(alternateAccount.getInitialDeposit() != 0){
         out.println("<h2> Second Account Summary:"+alternateAccount.getacctType()+"</h2>");
         out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
-        out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
+        out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
         out.println("<h2> Transaction History: </h2>");
         out.println("<h2> Initial Deposit of $"+alternateAccount.getInitialDeposit()+"</h2>");
       }
@@ -166,4 +200,33 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       selectWrite.writeObject(accountToOverwrite);
       selectWrite.close();
     }
+    
+  private void writeToFile(User newUser, Account newAccount) throws IOException{
+    File userFile = new File("altAcctFile.txt");//object files for other class to get user data
+    File acctFile = new File("acctFile.txt");//object files for other class to get account data
+
+    FileOutputStream userOutFile =  new FileOutputStream(userFile,true);
+    FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
+
+    if(userFile.length() == 0){ // if files existed when write to current file
+      ObjectOutputStream userWrite=new ObjectOutputStream(userOutFile);
+      ObjectOutputStream acctWrite=new ObjectOutputStream(acctOutFile);
+
+      userWrite.writeObject(newUser);
+      acctWrite.writeObject(newAccount);
+
+      userWrite.close();
+      acctWrite.close();
+      return;
+    }
+
+    AppendingObjectOutputStream userWrite = new AppendingObjectOutputStream(userOutFile);
+    AppendingObjectOutputStream acctWrite = new AppendingObjectOutputStream(acctOutFile);
+
+    userWrite.writeObject(newUser);
+    acctWrite.writeObject(newAccount);
+
+    userWrite.close();
+    acctWrite.close();
+  }
 }

@@ -5,17 +5,27 @@
 <html>
 <style>
 body {
-  background-image: url('background.jpg');
-  <!--background-repeat: no-repeat; -->
+	background-image: url('bankbackground.jpg');
+	background-repeat: no-repeat;
+    }
+
+div {
+    height: 200px;
+    width: 400px;
+    background:#ffcc33;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -400px;
+    margin-left: -200px;
 }
 </style>
 <form method="POST" action="bankapp">
+<div>
 <body>
 <CENTER>
 <h1>
-<font COLOR="PURPLE">
-Big Bois Only Bank
-</font>
 </h1><br>
 <label for="username"><b><font COLOR="PURPLE">Username:</font></b></label>
 <input type="text" placeholder="Enter Username" name="username"><br><br>
@@ -24,9 +34,8 @@ Big Bois Only Bank
 
 <INPUT TYPE="Submit" VALUE="Logon"><br><br>
 <INPUT TYPE=Button onClick="parent.location = 'CreateUser.html'" value="Create New User"><br><br>
-<input type="Button" onclick="window.location.href = 'https://youtu.be/BlF-hdgGgRc?t=30';" value="Get Lit &#128584 &#128293;">
 </CENTER>
 
-
-<body>
+</div>
+</body>
 </html>
