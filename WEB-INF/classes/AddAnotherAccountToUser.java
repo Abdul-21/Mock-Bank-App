@@ -20,8 +20,6 @@ public class AddAnotherAccountToUser extends HttpServlet{
 
         User Userobj= (User)userSession.getAttribute("currentUserObj");
         Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
-
-
         newAccount.setCustomerID(rand.nextInt(1000));
         String newAccountType = request.getParameter("type-of-account");
         newAccount.setInitialDeposit(Double.parseDouble(request.getParameter("initial-deposit")));
@@ -61,4 +59,5 @@ public class AddAnotherAccountToUser extends HttpServlet{
 
         acctWrite.close();
       }
+
 }
