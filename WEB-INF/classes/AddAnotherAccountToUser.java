@@ -20,13 +20,13 @@ public class AddAnotherAccountToUser extends HttpServlet{
 
         User Userobj= (User)userSession.getAttribute("currentUserObj");
         Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
-        
+
 
         newAccount.setCustomerID(rand.nextInt(1000));
         String newAccountType = request.getParameter("type-of-account");
         newAccount.setInitialDeposit(Double.parseDouble(request.getParameter("initial-deposit")));
         newAccount.setCustomerName(Userobj.getFirstName() + " " + Userobj.getLastName());
-        
+
         //userSession.setAttribute("newAccount",newAccount);
         writeToFile(newAccount);
         out.println("<html>");
@@ -43,37 +43,22 @@ public class AddAnotherAccountToUser extends HttpServlet{
     }
     private void writeToFile(Account newAccount) throws IOException{
         File acctFile = new File("altAcctFile.txt");//object files for other class to get account data
-    
+
         FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
-    
+
         if(acctFile.length() == 0){ // if files existed when write to current file
           ObjectOutputStream acctWrite=new ObjectOutputStream(acctOutFile);
-    
+
           acctWrite.writeObject(newAccount);
-    
+
           acctWrite.close();
           return;
         }
-    
+
         AppendingObjectOutputStream acctWrite = new AppendingObjectOutputStream(acctOutFile);
-    
+
         acctWrite.writeObject(newAccount);
-    
+
         acctWrite.close();
-      }
-      public class AppendingObjectOutputStream extends ObjectOutputStream {
-    
-        public AppendingObjectOutputStream(OutputStream out) throws IOException {
-          super(out);
-        }
-    
-        @Override
-        protected void writeStreamHeader() throws IOException {
-          // do not write a header, but reset:
-          // this line added after another question
-          // showed a problem with the original
-          reset();
-        }
-    
       }
 }
