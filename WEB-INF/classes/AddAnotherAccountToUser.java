@@ -21,8 +21,10 @@ public class AddAnotherAccountToUser extends HttpServlet{
         User Userobj= (User)userSession.getAttribute("currentUserObj");
         Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
         newAccount.setCustomerID(rand.nextInt(1000));
-        String newAccountType = request.getParameter("type-of-account");
-        newAccount.setInitialDeposit(Double.parseDouble(request.getParameter("initial-deposit")));
+        newAccount.setacctType(request.getParameter("type-of-account"));
+        double amount = Double.parseDouble(request.getParameter("initial-deposit"));
+        newAccount.setInitialDeposit(amount);
+        newAccount.deposit(amount);
         newAccount.setCustomerName(Userobj.getFirstName() + " " + Userobj.getLastName());
 
         //userSession.setAttribute("newAccount",newAccount);

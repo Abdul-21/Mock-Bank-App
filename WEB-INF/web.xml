@@ -65,5 +65,12 @@
   <servlet-name>updateBankApp</servlet-name>
   <url-pattern>/updateBankApp</url-pattern>
 </servlet-mapping>
+<servlet>
+  <servlet-name>deposit</servlet-name>
+  <servlet-class>deposit</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>deposit</servlet-name>
+  <url-pattern>/deposit</url-pattern>
+</servlet-mapping>
 </web-app>
-

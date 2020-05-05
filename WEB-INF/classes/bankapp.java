@@ -54,7 +54,7 @@ public class bankapp extends HttpServlet {
       Account alternateAccount = new Account();
       File tempFile = new File("../bin/altAcctFile.txt");
       if(tempFile.exists() == true){
-        ObjectInputStream readAlt = new ObjectInputStream(new FileInputStream("altAcctFile.txt")); 
+        ObjectInputStream readAlt = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
         alternateAccount = (Account)readAlt.readObject();
       }
        //Now that Account object is populated, display information
@@ -70,7 +70,7 @@ public class bankapp extends HttpServlet {
         out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
         out.println("<br>");
         if(alternateAccount.getInitialDeposit() != 0){
-          out.println("<h2> Second Account Summary:"+alternateAccount.getacctType()+"</h2>");
+          out.println("<h2> Second Account Summary:"+currentUser.getacctType()+"</h2>");
           out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
           out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
           out.println("<h2> Transaction History: </h2>");

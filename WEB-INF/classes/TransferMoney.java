@@ -14,11 +14,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
         PrintWriter out =response.getWriter();
+        HttpSession action = request.getSession();
         HttpSession userSession = request.getSession();
 
         User Userobj= (User)userSession.getAttribute("currentUserObj");
         Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
-        
+
         out.println("<html>");
         out.println("<body>");
         out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
@@ -31,7 +32,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         out.println("<center><h4>"+Userobj.getFirstName()+", Please put in an amount to send:</h4>");
         out.println("Amount Desired: <INPUT TYPE=number Name='Amount'><br>");
         out.println("<INPUT TYPE='Submit' NAME='submitTransfer' VALUE='submitTransfer'></center>");
-        out.println("<button onclick=\"location.href = 'index.html';\"'>Logout</a></button>");
+        out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
         out.println("</body>");
     }
 }
