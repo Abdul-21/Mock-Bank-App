@@ -61,18 +61,42 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     }
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
+      PrintWriter out = response.getWriter();
       HttpSession userSession = request.getSession();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
       double amount=Double.parseDouble(request.getParameter("Amount"));
-      String AcctID= request.getParameter("AcctID");
-      if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
-      Accountobj.withdraw(amount);
-      }else{
-        altAcctobj.withdraw(amount);
-            }
+      double AcctID=Double.parseDouble(request.getParameter("AcctID"));
+      String UserN = (String)userSession.getAttribute("currentUser");
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
     }
+      File acctFile = new File("acctFile.txt");
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+          if(acct.getBalance() < amount){
+            out.println("Invalid! You don't have enough money in your account");
+          }else{
+            acct.withdraw(amount);
+          }
+          break;
+        }
+      }
+      for(Account acct:acctVect){
+        acctWrite.writeObject(acct);
+      }
+      acctWrite.close();
+      showacct(UserN,response);
+    }
+
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
       double amount=Double.parseDouble(request.getParameter("Amount"));
@@ -90,7 +114,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
     }
       File acctFile = new File("acctFile.txt");
-      FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
       ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
@@ -107,10 +131,11 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
       PrintWriter out = response.getWriter();
-      double fromID =Double.parseDouble(request.getParameter("fromID"));
-      double toID =Double.parseDouble(request.getParameter("toID"));
+      int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
+      int toID =(int)Double.parseDouble(request.getParameter("toID"));
       double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
       String UserN = (String)userSession.getAttribute("currentUser");
+
       Vector <Account> acctVect = new Vector<Account>(); 
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
@@ -123,14 +148,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
     }
       File acctFile = new File("acctFile.txt");
-      FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
       ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
 
-      Account tempFrom = new Account();
-      Account tempTo = new Account();
-
       for(Account acct:acctVect){
-        if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(fromID)){
+        int chosenID = (int)acct.getCustomerID();
+        if(chosenID == fromID){
           double bal = acct.getBalance();
           if(amountToTransfer > bal){
             out.println("<html>");
@@ -142,13 +165,13 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           }
           acct.withdraw(amountToTransfer);
         }
-        if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(toID)){
+        else if(chosenID == toID){
           acct.deposit(amountToTransfer);
         }
       }
       for(Account acct:acctVect){
-          acctWrite.writeObject(acct);
-        }
+        acctWrite.writeObject(acct);
+      }
       acctWrite.close();
       showacct(UserN,response);
     }
