@@ -8,6 +8,7 @@ public class Account implements Serializable{
     private double initialDeposit;
     private double balance;
     private long CustomerID;
+    private String accountType;
 
     public Account(){
         balance=0.00;
@@ -42,6 +43,14 @@ public class Account implements Serializable{
 
     public double withdraw(double amount){
         return balance-=amount;
+    }
+
+    public void setacctType(String type) {
+        accountType = type;
+    }
+    
+    public String getacctType() {
+        return accountType;
     }
 
     public double deposit(double amount){
