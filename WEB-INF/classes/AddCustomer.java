@@ -16,19 +16,22 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       User newUser= new User();
       Account newAccount= new Account();
       Random rand = new Random();
+      double id= rand.nextInt(1000);
+      
 
       newUser.setFirstName(request.getParameter("First Name"));
       newUser.setLastName(request.getParameter("Last Name"));
       newUser.setacctType(request.getParameter("Type of Account"));
       newUser.setUserName(request.getParameter("Username"));
       newUser.setPassword(request.getParameter("Password"));
+      newUser.setacccountID(id);
 
       double amount = Double.parseDouble(request.getParameter("initial deposit"));
       newAccount.deposit(amount);
       newAccount.setInitialDeposit(amount);
-      newAccount.setCustomerID(rand.nextInt(1000));
-      newAccount.setCustomerName(newUser.getFirstName()+" "+newUser.getLastName());
-
+      newAccount.setCustomerID(id);
+      newAccount.setCustomerName(request.getParameter("Username"));
+      newAccount.setacctType(request.getParameter("Type of Account"));
       writeToFile(newUser,newAccount);
 
       PrintWriter out = response.getWriter();

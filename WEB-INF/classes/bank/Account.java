@@ -7,7 +7,7 @@ public class Account implements Serializable{
     private String CustomerName;
     private double initialDeposit;
     private double balance;
-    private long CustomerID;
+    private double CustomerID;
     private String accountType;
 
     public Account(){
@@ -25,11 +25,11 @@ public class Account implements Serializable{
         return initialDeposit;
     }
 
-    public void setCustomerID(long customerID) {
+    public void setCustomerID(double customerID) {
         CustomerID = customerID;
     }
 
-    public long getCustomerID() {
+    public double getCustomerID() {
         return CustomerID;
     }
 
@@ -48,7 +48,7 @@ public class Account implements Serializable{
     public void setacctType(String type) {
         accountType = type;
     }
-    
+
     public String getacctType() {
         return accountType;
     }

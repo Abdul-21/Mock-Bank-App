@@ -8,7 +8,7 @@ private static final long serialVersionUID = 223L;
 private String firstName;
 private String lastName;
 private String userName;
-private String accountID;
+private double accountID;
 private String accountType;
 private String password;
 private List<Account> allUserAccount = new ArrayList<Account>();
@@ -22,7 +22,7 @@ public void setFirstName(String firstN) {
 public void setLastName(String lastN) {
 	lastName = lastN;
 }
-public void setacccountID(String id) {
+public void setacccountID(double id) {
 	accountID = id;
 }
 public void setUserName(String UserN){
@@ -52,7 +52,7 @@ public String getLastName() {
 public String getUserName(){
 	return userName;
 }
-public String getacctID() {
+public double getacctID() {
 	return accountID;
 }
 public String getacctType() {

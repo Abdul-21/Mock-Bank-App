@@ -20,10 +20,11 @@ public class AddAnotherAccountScreen extends HttpServlet{
         HttpSession userSession = request.getSession();
         String userName = request.getParameter("Username");
         userSession.setAttribute("Username",userName);
+        userSession.setAttribute("action","Add User");
 
         out.println("<html>");
         out.println("<body>");
-        out.println("<FORM METHOD='POST' ACTION='AddAnotherAccountToUser'>");
+        out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
         out.println("<CENTER><h1>Complete the following:</b1>");
         out.println("<label for='type-of-account'><b><font COLOR='PURPLE'>Account Type:</font></b></label>");
         out.println("<select id='type-of-account' name='type-of-account'>");
