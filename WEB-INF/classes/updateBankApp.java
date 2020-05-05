@@ -25,8 +25,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
       // else if(userSession.getAttribute("action").equals("Close Account"))
       //   CloseAcct(response, request);
-      // else if(userSession.getAttribute("action").equals("New Account"))
-      //   OpenAcct(request);
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
@@ -62,16 +60,38 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
       double amount=Double.parseDouble(request.getParameter("Amount"));
-      String AcctID= request.getParameter("AcctID");
-      if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
-      Accountobj.withdraw(amount);
-      }else{
-        altAcctobj.withdraw(amount);
-            }
+      double AcctID=Double.parseDouble(request.getParameter("AcctID"));
+      String UserN = (String)userSession.getAttribute("currentUser");
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
+      File acctFile = new File("acctFile.txt");
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+          if(acct.getBalance() < amount){
+            out.println("Invalid! You don't have enough money in your account");
+          }else{
+            acct.withdraw(amount);
+          }
+          break;
+        }
+      }
+      for(Account acct:acctVect){
+        acctWrite.writeObject(acct);
+      }
+      acctWrite.close();
+      showacct(UserN,response);
     }
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
@@ -90,8 +110,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
     }
       File acctFile = new File("acctFile.txt");
-      FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
-      AppendingObjectOutputStream acctWrite = new AppendingObjectOutputStream(acctOutFile);
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
           acct.deposit(amount);
@@ -104,6 +124,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       acctWrite.close();
       showacct(UserN,response);
     }
+
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
       PrintWriter out =response.getWriter();
@@ -212,7 +233,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<html>");
       out.println("<body>");
       out.println("<FORM METHOD='POST'>");
-      out.println("<CENTER><h1>User account was Found!<br> Welcome "+userName+"</b1>");
+      out.println("<CENTER>Welcome "+userName+"</b1>");
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(userName)){
           showmenu(acct,response);
