@@ -24,7 +24,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       newUser.setPassword(request.getParameter("Password"));
 
       newAccount.deposit(Double.parseDouble(request.getParameter("initial deposit")));
-      newAccount.setInitialDeposit(Double.parseDouble(request.getParameter("initial deposit")));
       newAccount.setCustomerID(rand.nextInt(1000));
       newAccount.setCustomerName(newUser.getFirstName()+" "+newUser.getLastName());
 

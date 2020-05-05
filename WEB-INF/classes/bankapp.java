@@ -36,11 +36,11 @@ public class bankapp extends HttpServlet {
         if(!(currentUser.getPassword().equals(passWord) && currentUser.getUserName().equals(UserN))){
           throw new IllegalArgumentException("Unable To Recognized Account Credentials");
         }
-        
+        userSession.setAttribute("currentUserObj",currentUser);
         //Reads from acctFile.txt into Account object.
         Account currentUserAccount = new Account();
         HashMap<Long, Account> AccountHmap = new HashMap<Long, Account>(); //Hold customer ID, and account object info.
-        ObjectInputStream readAccount = new ObjectInputStream(new FileInputStream("acctFile.txt")); 
+        ObjectInputStream readAccount = new ObjectInputStream(new FileInputStream("acctFile.txt"));
         while(true){
           try{
             currentUserAccount = (Account)readAccount.readObject();
@@ -49,26 +49,45 @@ public class bankapp extends HttpServlet {
             break;
         }
       }
+
+      Account alternateAccount = new Account();
+      ObjectInputStream readAltAccount = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
+      while(true){
+        try{
+          alternateAccount = (Account)readAltAccount.readObject();
+        }catch(Exception e){
+          break;
+      }
+    }
        //Now that Account object is populated, display information
+        userSession.setAttribute("currentUserAccount",currentUserAccount);
         out.println("<html>");
         out.println("<body>");
+        out.println("<FORM METHOD='POST'>");
         out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
         out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
+        out.println("<h2> Account ID:"+currentUserAccount.getCustomerID()+"</h2>");
         out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
         out.println("<h2> Transaction History: </h2>");
         out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
+        out.println("<br>");
+        if(alternateAccount.getInitialDeposit() != 0){
+          out.println("<h2> Second Account Summary:"+currentUser.getacctType()+"</h2>");
+          out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
+          out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
+          out.println("<h2> Transaction History: </h2>");
+          out.println("<h2> Initial Deposit of $"+alternateAccount.getInitialDeposit()+"</h2>");
+        }
+        out.println("<button formaction='withdraw'>Withdraw</button>");
+        out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+        out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+        out.println("</form>");
         out.println("</body>");
-        out.println("<button onclick=\"location.href = 'TransferMoney';\"'>Transfer Money</a></button>");
-        out.println("<button onclick=\"location.href = 'AddAnotherAccountToUser';\"'>Create another Account</a></button>");
-        
-        //Now to display actions to take 
-        //Transfer between account - if sufficient balance
-        //History of transaction
-        //View balances (name: $ amount, optional ID/key)
-        //Delete Account
 
 
-      
+
+
+
 
 
 
