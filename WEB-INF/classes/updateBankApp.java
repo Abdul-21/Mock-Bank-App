@@ -69,28 +69,41 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       String AcctID= request.getParameter("AcctID");
       if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
       Accountobj.withdraw(amount);
-      showmenu(Accountobj,Userobj,response);
       }else{
         altAcctobj.withdraw(amount);
-        showmenu(altAcctobj,Userobj,response);
-      }
+            }
     }
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
       double amount=Double.parseDouble(request.getParameter("Amount"));
-      String AcctID= request.getParameter("AcctID");
-      if(AcctID.contains(String.valueOf(Accountobj.getCustomerID()))){
-      Accountobj.deposit(amount);
-      showmenu(Accountobj,Userobj,response);
-      }else{
-        altAcctobj.deposit(amount);
-        showmenu(altAcctobj,Userobj,response);
+      double AcctID=Double.parseDouble(request.getParameter("AcctID"));
+      String UserN = (String)userSession.getAttribute("currentUser");
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
       }
     }
-
+      File acctFile = new File("acctFile.txt");
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
+      AppendingObjectOutputStream acctWrite = new AppendingObjectOutputStream(acctOutFile);
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+          acct.deposit(amount);
+          break;
+        }
+      }
+      for(Account acct:acctVect){
+        acctWrite.writeObject(acct);
+      }
+      acctWrite.close();
+      showacct(UserN,response);
+    }
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
       PrintWriter out =response.getWriter();
@@ -118,7 +131,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           altAcctobj.deposit(amountToTransfer);
           overWriteAccount(Accountobj,response,request);
           overWriteAccount(altAcctobj,response,request);
-          showmenu(Accountobj, Userobj, response);
+
         }
       }
       else if(fromID == altAcctObjID){
@@ -131,47 +144,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           Accountobj.deposit(amountToTransfer);
           overWriteAccount(Accountobj,response,request);
           overWriteAccount(altAcctobj,response,request);
-          showmenu(altAcctobj, Userobj,response);
+
         }
       }
 
-    }
-    public void showmenu(Account currentUserAccount, User currentUser,HttpServletResponse response)throws IOException{
-      PrintWriter out =response.getWriter();
-
-      Account alternateAccount = new Account();
-      File tempFile = new File("../bin/altAcctFile.txt");
-      if(tempFile.exists() == true){
-        ObjectInputStream readAlt = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
-        try{
-        alternateAccount = (Account)readAlt.readObject();
-      }catch(Exception e){;}
-      }
-
-      out.println("<html>");
-      out.println("<body>");
-      out.println("<FORM METHOD='POST'>");
-      out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
-      out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
-      out.println("<h2> Account ID:"+currentUserAccount.getCustomerID()+"</h2>");
-      out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
-      out.println("<h2> Transaction History: </h2>");
-      out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
-      out.println("<br>");
-      if(alternateAccount.getInitialDeposit() != 0){
-        out.println("<h2> Second Account Summary:"+alternateAccount.getacctType()+"</h2>");
-        out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
-        out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
-        out.println("<h2> Transaction History: </h2>");
-        out.println("<h2> Initial Deposit of $"+alternateAccount.getInitialDeposit()+"</h2>");
-      }
-      out.println("<button formaction='withdraw'>Withdraw</button>");
-      out.println("<button formaction='deposit'>Deposit</button>");
-      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
-      out.println("</form>");
-      out.println("</body>");
-      out.println("</body>");
     }
     private void writeToFile(Account newAccount) throws IOException{
         File acctFile = new File("acctFile.txt");//object files for other class to get account data
@@ -216,5 +192,48 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
       selectWrite.writeObject(accountToOverwrite);
       selectWrite.close();
+    }
+    public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
+
+      // currentUserAccount.setacctType(currentUser.getacctType());
+      PrintWriter out = response.getWriter();
+      double Total=0;
+      out.println("<html>");
+      out.println("<body>");
+      out.println("<FORM METHOD='POST'>");
+      out.println("<CENTER><h1>User account was Found!<br> Welcome "+userName+"</b1>");
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(userName)){
+          showmenu(acct,response);
+          Total+=acct.getBalance();
+        }
+      }
+      out.println("<br><h2>Sum of all Balance: $"+Total+"</h2>");
+      out.println("<button formaction='withdraw'>Withdraw</button>");
+      out.println("<button formaction='deposit'>Deposit</button>");
+      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("</form>");
+      out.println("</body>");
+    }
+    public void showmenu(Account acct,HttpServletResponse response) throws IOException{
+      PrintWriter out = response.getWriter();
+      out.println("<h2> Account Summary:"+acct.getacctType()+"</h2>");
+      out.println("<h2> Account ID:"+acct.getCustomerID()+"</h2>");
+      out.println("<h2> Account Balance: $"+acct.getBalance()+"</h2>");
+      out.println("<h2> Transaction History: </h2>");
+      out.println("<h2> Initial Deposit of $"+acct.getInitialDeposit()+"</h2>");
+      out.println("<br>");
     }
 }
