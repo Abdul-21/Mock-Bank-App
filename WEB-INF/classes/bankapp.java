@@ -70,7 +70,7 @@ public class bankapp extends HttpServlet {
         out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
         out.println("<br>");
         if(alternateAccount.getInitialDeposit() != 0){
-          out.println("<h2> Second Account Summary:"+currentUser.getacctType()+"</h2>");
+          out.println("<h2> Second Account Summary:"+alternateAccount.getacctType()+"</h2>");
           out.println("<h2> Account ID:"+alternateAccount.getCustomerID()+"</h2>");
           out.println("<h2> Account Balance: $"+alternateAccount.getBalance()+"</h2>");
           out.println("<h2> Transaction History: </h2>");

@@ -21,7 +21,8 @@ public class AddAnotherAccountToUser extends HttpServlet{
         User Userobj= (User)userSession.getAttribute("currentUserObj");
         Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
         newAccount.setCustomerID(rand.nextInt(1000));
-        newAccount.setacctType(request.getParameter("type-of-account"));
+        String type = (String)request.getParameter("type-of-account");
+        newAccount.setacctType(type);
         double amount = Double.parseDouble(request.getParameter("initial-deposit"));
         newAccount.setInitialDeposit(amount);
         newAccount.deposit(amount);
@@ -32,9 +33,9 @@ public class AddAnotherAccountToUser extends HttpServlet{
         out.println("<html>");
         out.println("<body>");
         out.println("<CENTER>");
-        out.println("<h1> <font COLOR=\"PURPLE\">Adding Account Successful!</font>");
+        out.println("<h1> <font COLOR=\"PURPLE\">a Adding Account Successful!</font>");
         out.println("</h1><br>");
-        out.println("<h1> <font COLOR=\"BLUE\"> Type of Account added:</font></font>");
+        out.println("<h1> <font COLOR=\"BLUE\"> Type of Account added:" + newAccount.getacctType() + " </font></font>");
         out.println("<br>");
         out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Login\">");
         out.println("<body>");
