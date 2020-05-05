@@ -54,11 +54,13 @@ public class bankapp extends HttpServlet {
         out.println("<body>");
         out.println("<CENTER><h1>User account was Found!<br> Welcome "+currentUser.getFirstName()+"</b1>");
         out.println("<h2> Account Summary:"+currentUser.getacctType()+"</h2>");
-        currentUserAccount.deposit(1.00);
         out.println("<h2> Account Balance: $"+currentUserAccount.getBalance()+"</h2>");
         out.println("<h2> Transaction History: </h2>");
         out.println("<h2> Initial Deposit of $"+currentUserAccount.getInitialDeposit()+"</h2>");
         out.println("</body>");
+        out.println("<button onclick=\"location.href = 'TransferMoney';\"'>Transfer Money</a></button>");
+        out.println("<button onclick=\"location.href = 'AddAnotherAccountToUser';\"'>Create another Account</a></button>");
+        
         //Now to display actions to take 
         //Transfer between account - if sufficient balance
         //History of transaction
