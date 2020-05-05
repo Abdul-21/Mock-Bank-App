@@ -20,6 +20,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Deposit")){
         Deposit(response,request);
       }
+      else if(userSession.getAttribute("action").equals("Add User")){
+        adduser(response,request);
+      }
       // else if(userSession.getAttribute("action").equals("Close Account"))
       //   CloseAcct(response, request);
       // else if(userSession.getAttribute("action").equals("New Account"))
@@ -27,6 +30,34 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
+    }
+    public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
+      PrintWriter out =response.getWriter();
+      HttpSession userSession = request.getSession();
+      Random rand = new Random();
+      Account newAccount = new Account();
+
+      User Userobj= (User)userSession.getAttribute("currentUserObj");
+      Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
+      newAccount.setCustomerID(rand.nextInt(1000));
+      String type = (String)request.getParameter("type-of-account");
+      newAccount.setacctType(type);
+      double amount = Double.parseDouble(request.getParameter("initial-deposit"));
+      newAccount.setInitialDeposit(amount);
+      newAccount.deposit(amount);
+      newAccount.setCustomerName(Userobj.getUserName());
+
+      writeToFile(newAccount);
+      out.println("<html>");
+      out.println("<body>");
+      out.println("<CENTER>");
+      out.println("<h1> <font COLOR=\"PURPLE\">Adding Account Successful!</font>");
+      out.println("</h1><br>");
+      out.println("<h1> <font COLOR=\"BLUE\"> Type of Account added:" + newAccount.getacctType() + " </font></font>");
+      out.println("<br>");
+      out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Login\">");
+      out.println("<body>");
+      out.println("</html>");
     }
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
@@ -142,6 +173,26 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</body>");
       out.println("</body>");
     }
+    private void writeToFile(Account newAccount) throws IOException{
+        File acctFile = new File("acctFile.txt");//object files for other class to get account data
+
+        FileOutputStream acctOutFile =  new FileOutputStream(acctFile,true);
+
+        if(acctFile.length() == 0){ // if files existed when write to current file
+          ObjectOutputStream acctWrite=new ObjectOutputStream(acctOutFile);
+
+          acctWrite.writeObject(newAccount);
+
+          acctWrite.close();
+          return;
+        }
+
+        AppendingObjectOutputStream acctWrite = new AppendingObjectOutputStream(acctOutFile);
+
+        acctWrite.writeObject(newAccount);
+
+        acctWrite.close();
+      }
 
     private void overWriteAccount(Account accountToOverwrite, HttpServletResponse response, HttpServletRequest request) throws IOException{
 

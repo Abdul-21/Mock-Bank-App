@@ -26,20 +26,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       String altAcctObjType = (String)altAcctobj.getacctType();
       String altAcctObjID = String.valueOf(altAcctobj.getCustomerID());
 
-      /*
-      out.println("<html>");
-      out.println("<title>Deposit</title>");
-      out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-      out.println("<center><h4>"+Userobj.getFirstName()+" Please note what amount you would like to deposit</h4>");
-      out.println("Account ID: <INPUT TYPE=number Name='AcctID'>");
-      out.println("<option value='"+Accountobj.getacctType()+"'>"+Accountobj.getacctType()+" ID:"+Accountobj.getCustomerID()+"</option>");
-      out.println("<option value='"+altAcctobj.getacctType()+"'>"+altAcctobj.getacctType()+" ID:"+altAcctobj.getCustomerID()+"</option>");
-      out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
-      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
-      out.println("<body>");
-      out.println("</body>");
-      */
-
       out.println("<html>");
       out.println("<body>");
       out.println("<title>Deposit</title>");
