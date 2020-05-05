@@ -14,6 +14,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();;
+      out.println("<html>");
+      out.println("<body>");
+      out.println("<FORM METHOD='POST'>");
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -28,6 +32,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
+      out.println("<button formaction='withdraw'>Withdraw</button>");
+      out.println("<button formaction='deposit'>Deposit</button>");
+      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("</form>");
+      out.println("</body>");
     }
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
@@ -60,6 +70,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
@@ -80,7 +91,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
           if(acct.getBalance() < amount){
-            out.println("Invalid! You don't have enough money in your account");
+            out.println("<Center> <h1> Invalid! You don't have enough money in your account </h1></center>");
           }else{
             acct.withdraw(amount);
           }
@@ -229,11 +240,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
       // currentUserAccount.setacctType(currentUser.getacctType());
       PrintWriter out = response.getWriter();
+      out.println("<CENTER><h1>Welcome "+userName+"</b1>");
       double Total=0;
-      out.println("<html>");
-      out.println("<body>");
-      out.println("<FORM METHOD='POST'>");
-      out.println("<CENTER>Welcome "+userName+"</b1>");
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(userName)){
           showmenu(acct,response);
@@ -241,12 +249,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         }
       }
       out.println("<br><h2>Sum of all Balance: $"+Total+"</h2>");
-      out.println("<button formaction='withdraw'>Withdraw</button>");
-      out.println("<button formaction='deposit'>Deposit</button>");
-      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
-      out.println("</form>");
-      out.println("</body>");
+
     }
     public void showmenu(Account acct,HttpServletResponse response) throws IOException{
       PrintWriter out = response.getWriter();

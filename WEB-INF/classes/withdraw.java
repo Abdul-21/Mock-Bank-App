@@ -16,32 +16,41 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
       String UserN = (String)userSession.getAttribute("currentUser");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
       userSession.setAttribute("action","Withdraw");
-
-      String accountObjType = (String)Accountobj.getacctType();
-      String accountObjID = String.valueOf(Accountobj.getCustomerID());
-      String altAcctObjType = (String)altAcctobj.getacctType();
-      String altAcctObjID = String.valueOf(altAcctobj.getCustomerID());
 
       out.println("<html>");
       out.println("<body>");
-      out.println("<title>withdraw</title>");
+      out.println("<title>Deposit</title>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-      out.println("<center><h2>"+Userobj.getFirstName()+", Please enter the following:</h2>");
-      out.println("ID to withdraw from: <INPUT TYPE=number Name='AcctID'>");
+      out.println("<center><h2>"+UserN+", Please enter the following:</h2>");
+      out.println("ID to deposit to: <INPUT TYPE=number Name='AcctID'>");
       out.println("<select id='choose-acct' name=choose-acct>");
       //out.println("<option value='"+accountObjType+"'>"+"Acct Type: "+accountObjType+" ID:"+Accountobj.getCustomerID()+"</option>");
       //out.println("<option value='"+altAcctObjType+"'>"+"Acct Type: "+altAcctObjType+" ID:"+altAcctobj.getCustomerID()+"</option>");
-      out.println("<option value='acct1'>"+"Take from: "+accountObjID+" with type: "+accountObjType+"</option>");
-      out.println("<option value='acct1'>"+"Take from: "+altAcctObjID+" with type: "+altAcctObjType+"</option>");
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(UserN)){
+          out.println("<option value='acct1'>"+"Take from: "+acct.getCustomerID()+" with type: "+acct.getacctType()+"</option>");
+        }
+      }
+      // out.println("<option value='acct1'>"+"Put into: "+accountObjID+" with type: "+accountObjType+"</option>");
+      // out.println("<option value='acct1'>"+"Put into: "+altAcctObjID+" with type: "+altAcctObjType+"</option>");
       out.println("</select>");
-      out.println("<label for='Amount'>Amount to Withdraw: </b></label>");
+      out.println("<label for='Amount'>Amount to Deposit: </b></label>");
       out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
       //out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
-      out.println("<INPUT TYPE='Submit' NAME='Withdraw' VALUE='Submit'></center>");
+      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
       out.println("</body>");
+
 }
 }
