@@ -58,7 +58,9 @@ public class bankapp extends HttpServlet {
         alternateAccount = (Account)readAlt.readObject();
       }
        //Now that Account object is populated, display information
+        currentUserAccount.setacctType(currentUser.getacctType());
         userSession.setAttribute("currentUserAccount",currentUserAccount);
+        userSession.setAttribute("altAcct",alternateAccount);
         out.println("<html>");
         out.println("<body>");
         out.println("<FORM METHOD='POST'>");
@@ -77,6 +79,7 @@ public class bankapp extends HttpServlet {
           out.println("<h2> Initial Deposit of $"+alternateAccount.getInitialDeposit()+"</h2>");
         }
         out.println("<button formaction='withdraw'>Withdraw</button>");
+        out.println("<button formaction='deposit'>Deposit</button>");
         out.println("<button formaction='TransferMoney'>Transfer Money</button>");
         out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
         out.println("</form>");

@@ -33,7 +33,7 @@ public class AddAnotherAccountToUser extends HttpServlet{
         out.println("<html>");
         out.println("<body>");
         out.println("<CENTER>");
-        out.println("<h1> <font COLOR=\"PURPLE\">a Adding Account Successful!</font>");
+        out.println("<h1> <font COLOR=\"PURPLE\">Adding Account Successful!</font>");
         out.println("</h1><br>");
         out.println("<h1> <font COLOR=\"BLUE\"> Type of Account added:" + newAccount.getacctType() + " </font></font>");
         out.println("<br>");
