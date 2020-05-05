@@ -23,9 +23,19 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       newUser.setUserName(request.getParameter("Username"));
       newUser.setPassword(request.getParameter("Password"));
 
+<<<<<<< Updated upstream
       newAccount.deposit(Double.parseDouble(request.getParameter("initial deposit")));
+=======
+
+      double amount = Double.parseDouble(request.getParameter("initial deposit"));
+      newAccount.deposit(amount);
+      newAccount.setInitialDeposit(amount);
+>>>>>>> Stashed changes
       newAccount.setCustomerID(rand.nextInt(1000));
       newAccount.setCustomerName(newUser.getFirstName()+" "+newUser.getLastName());
+
+      logging log= new logging();
+      log.logact(request.getParameter("First Name")+" Created "+request.getParameter("Type of Account")+" With Account ID "+newAccount.getCustomerID());
 
       writeToFile(newUser,newAccount);
 
