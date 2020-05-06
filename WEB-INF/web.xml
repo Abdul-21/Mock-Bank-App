@@ -42,14 +42,6 @@
   <url-pattern>/TransferMoney</url-pattern>
 </servlet-mapping>
 <servlet>
-  <servlet-name>AddAnotherAccountToUser</servlet-name>
-  <servlet-class>AddAnotherAccountToUser</servlet-class>
-</servlet>
-<servlet-mapping>
-  <servlet-name>AddAnotherAccountToUser</servlet-name>
-  <url-pattern>/AddAnotherAccountToUser</url-pattern>
-</servlet-mapping>
-<servlet>
   <servlet-name>AddAnotherAccountScreen</servlet-name>
   <servlet-class>AddAnotherAccountScreen</servlet-class>
 </servlet>
@@ -72,5 +64,13 @@
 <servlet-mapping>
   <servlet-name>deposit</servlet-name>
   <url-pattern>/deposit</url-pattern>
+</servlet-mapping>
+<servlet>
+  <servlet-name>deleteAccount</servlet-name>
+  <servlet-class>deleteAccount</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>deleteAccount</servlet-name>
+  <url-pattern>/deleteAccount</url-pattern>
 </servlet-mapping>
 </web-app>

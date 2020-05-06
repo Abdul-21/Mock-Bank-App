@@ -14,6 +14,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();;
+      //out.println("<html>");
+      //out.println("<body>");
+      //out.println("<FORM METHOD='POST'>");
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -23,14 +27,66 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Add User")){
         adduser(response,request);
       }
-      // else if(userSession.getAttribute("action").equals("Close Account"))
-      //   CloseAcct(response, request);
-      // else if(userSession.getAttribute("action").equals("New Account"))
-      //   OpenAcct(request);
+      else if(userSession.getAttribute("action").equals("Delete Account")){
+        CloseAcct(response, request);
+      }
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
+      if(!userSession.getAttribute("action").equals("Add User")){
+      /*
+      out.println("<button formaction='withdraw'>Withdraw</button>");
+      out.println("<button formaction='deposit'>Deposit</button>");
+      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+      out.println("<button formaction='deleteAccount'>Close Account</button>");
+      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("</form>");
+      out.println("</body>");
+      */
     }
+    }
+    public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
+      HttpSession userSession = request.getSession();
+      String UserN = (String)userSession.getAttribute("currentUser");
+      int AcctID=(int)Double.parseDouble(request.getParameter("AcctID"));
+
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
+    File acctFile = new File("acctFile.txt");
+    FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+    ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+    Iterator<Account> iter = acctVect.iterator();
+    while(iter.hasNext()){
+      int chosenID = (int)iter.next().getCustomerID();
+      if(chosenID == AcctID){
+        iter.remove();
+      }
+    }
+    /*
+    for(Account acct:acctVect){
+      //if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+        int chosenID = (int)acct.getCustomerID();
+      if(chosenID == AcctID){
+        acctVect.remove(acct);
+      }
+    }
+    */
+    for(Account acct:acctVect){
+      acctWrite.writeObject(acct);
+    }
+    acctWrite.close();
+    showacct(UserN,response);
+    }
+
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
@@ -38,7 +94,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       Account newAccount = new Account();
 
       User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account selectedAccount = (Account)userSession.getAttribute("currentUserAccount");
       newAccount.setCustomerID(rand.nextInt(1000));
       String type = (String)request.getParameter("type-of-account");
       newAccount.setacctType(type);
@@ -76,11 +131,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</div>");
       out.println("</body>");
       out.println("</html>");
+      return;
     }
 
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
-      PrintWriter out = response.getWriter();
       HttpSession userSession = request.getSession();
+      PrintWriter out =response.getWriter();
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
@@ -116,7 +172,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       acctWrite.close();
       showacct(UserN,response);
     }
-
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out = response.getWriter();
       HttpSession userSession = request.getSession();
@@ -149,28 +204,29 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       acctWrite.close();
       showacct(UserN,response);
     }
+
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
-      PrintWriter out = response.getWriter();
-      int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
-      int toID =(int)Double.parseDouble(request.getParameter("toID"));
-      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
-      String UserN = (String)userSession.getAttribute("currentUser");
+         PrintWriter out = response.getWriter();
+         int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
+         int toID =(int)Double.parseDouble(request.getParameter("toID"));
+         double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
+         String UserN = (String)userSession.getAttribute("currentUser");
 
-      Vector <Account> acctVect = new Vector<Account>(); 
-      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
-      while(true){
-        try{
-          Account Objs= (Account)acctObjects.readObject();
-          acctVect.addElement(Objs);
-        }catch(Exception e){
-          acctObjects.close();
-          break;
-      }
-    }
-      File acctFile = new File("acctFile.txt");
-      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
-      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+         Vector <Account> acctVect = new Vector<Account>();
+         ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+         while(true){
+           try{
+             Account Objs= (Account)acctObjects.readObject();
+             acctVect.addElement(Objs);
+           }catch(Exception e){
+             acctObjects.close();
+             break;
+         }
+       }
+         File acctFile = new File("acctFile.txt");
+         FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+         ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
 
       for(Account acct:acctVect){
         int chosenID = (int)acct.getCustomerID();
@@ -194,9 +250,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         acctWrite.writeObject(acct);
       }
       acctWrite.close();
-      out.println("<div>");
+      //out.println("<div>");
       showacct(UserN,response);
-      out.println("</div>");
+      //out.println("</div>");
     }
     private void writeToFile(Account newAccount) throws IOException{
         File acctFile = new File("acctFile.txt");//object files for other class to get account data
@@ -219,29 +275,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         acctWrite.close();
       }
 
-    private void overWriteAccount(Account accountToOverwrite, HttpServletResponse response, HttpServletRequest request) throws IOException{
-
-      HttpSession userSession = request.getSession();
-      PrintWriter out = response.getWriter();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
-
-      File selectedFile = new File(" ");
-      if(accountToOverwrite == Accountobj){
-        selectedFile = new File("userFile.txt");//object files for other class to get user data
-      }
-      else if(accountToOverwrite == altAcctobj){
-        selectedFile = new File("altAcctFile.txt");//object files for other class to get account data
-      }
-
-      FileOutputStream selectedOutFile =  new FileOutputStream(selectedFile,true);
-
-      AppendingObjectOutputStream selectWrite = new AppendingObjectOutputStream(selectedOutFile);
-
-      selectWrite.writeObject(accountToOverwrite);
-      selectWrite.close();
-    }
     public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
       Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
@@ -254,8 +287,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           break;
       }
     }
-
-      // currentUserAccount.setacctType(currentUser.getacctType());
       PrintWriter out = response.getWriter();
       double Total=0;
       out.println("<html>");
@@ -281,7 +312,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<FORM METHOD='POST'>");
       out.println("<font COLOR='#7a0019'>");
       out.println("<CENTER><h1>Welcome "+userName+"!"+"</h1>");
-      out.println("<h3>NOTE: Menu will be at bottom if too many accounts to fit</h3>");
+      out.println("<h3>NOTE: Menu will be at bottom and top if too many accounts to fit</h3>");
       out.println("</font>");
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(userName)){
@@ -295,6 +326,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='withdraw'>Withdraw</button>");
       out.println("<button formaction='deposit'>Deposit</button>");
       out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+      out.println("<button formaction='deleteAccount'>Close Account</button>");
       out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
       out.println("</form>");
       out.println("</div>");

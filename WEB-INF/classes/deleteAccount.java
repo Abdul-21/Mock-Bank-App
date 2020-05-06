@@ -4,8 +4,8 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-public class withdraw extends HttpServlet{
-private static final long serialVersionUID = 102831973239L;
+public class deleteAccount extends HttpServlet{
+private static final long serialVersionUID = 1028313239L;
 
 public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
   doPost(request,response);
@@ -27,8 +27,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           break;
       }
     }
-      userSession.setAttribute("action","Withdraw");
 
+      userSession.setAttribute("action","Delete Account");
       out.println("<html>");
       out.println("<style>");
       out.println("body {");
@@ -48,25 +48,17 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</style>");
       out.println("<body>");
       out.println("<div>");
-      out.println("<font COLOR='#7a0019'> <CENTER><h1>GopherBank Withdraw</font></h1><br>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-      out.println("<h3>Available accounts for "+UserN+": </h3><br>");
-      int i = 1;
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN)){
-          out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf(acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>");
+          out.println("<h3>Account Type: "+acct.getacctType()+" with ID: "+String.valueOf(acct.getCustomerID()) + " and a balance of "+"$"+String.valueOf(acct.getBalance())+"</h3><br>");
         }
       }
-      out.println("<center><h3>Please complete the following:</h3>");
-      out.println("<font COLOR='#7a0019'>");
-      out.println("<h4>ID to deposit to: <INPUT TYPE=number Name='AcctID'></h4><br>");
-      out.println("<h4><label for='Amount'>Amount to Deposit: </label></h4>");
-      out.println("<h4><input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'></h4><br>");
-      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
-      out.println("</font>");
+      out.println("<h3>ID of Acccount you would like to close: <INPUT TYPE=number Name='AcctID'></h3>");
+      out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
       out.println("</div>");
       out.println("</body>");
       out.println("</html>");
+    }
 
-  }
 }
