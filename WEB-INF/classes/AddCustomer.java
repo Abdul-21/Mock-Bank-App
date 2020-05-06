@@ -36,14 +36,32 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
       PrintWriter out = response.getWriter();
       out.println("<html>");
+      out.println("<style>");
+      out.println("body {");
+      out.println("background-image: url('portal.jpg');");
+      out.println("background-repeat: no-repeat;");
+      out.println("}");
+      out.println("div {");
+      out.println("height: 900px;");
+      out.println("width: 700px;");
+      out.println("background:#ffcc33;");
+      out.println("position: fixed;");
+      out.println("top: 50%;");
+      out.println("left: 50%;");
+      out.println("margin-top: -500px;");
+      out.println("margin-left: -200px;");
+      out.println("}");
+      out.println("</style>");
       out.println("<body>");
+      out.println("<div>");
       out.println("<CENTER>");
-      out.println("<h1> <font COLOR=\"PURPLE\"> Registration Successful!</font>");
-      out.println("</h1><br>");
-      out.println("<h1> <font COLOR=\"BLUE\"> Welcome to the Club:</font>"+newAccount.getCustomerName()+"</font>");
-      out.println("<br>");
+      out.println("<font COLOR='#7a0019'>");
+      out.println("<h1>Registration Successful!</h1><br>");
+      out.println("<h1>Welcome to the Club:"+newAccount.getCustomerName()+"</font></h1><br>");
       out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Login\">");
-      out.println("<body>");
+      out.println("</CENTER>");
+      out.println("</div>");
+      out.println("</body>");
       out.println("</html>");
 
   }

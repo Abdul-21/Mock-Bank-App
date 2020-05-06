@@ -16,32 +16,57 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
       String UserN = (String)userSession.getAttribute("currentUser");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
       userSession.setAttribute("action","Withdraw");
 
-      String accountObjType = (String)Accountobj.getacctType();
-      String accountObjID = String.valueOf(Accountobj.getCustomerID());
-      String altAcctObjType = (String)altAcctobj.getacctType();
-      String altAcctObjID = String.valueOf(altAcctobj.getCustomerID());
-
       out.println("<html>");
+      out.println("<style>");
+      out.println("body {");
+      out.println("background-image: url('portal.jpg');");
+      out.println("background-repeat: no-repeat;");
+      out.println("}");
+      out.println("div {");
+      out.println("height: 900px;");
+      out.println("width: 550px;");
+      out.println("background:#ffcc33;");
+      out.println("position: fixed;");
+      out.println("top: 50%;");
+      out.println("left: 50%;");
+      out.println("margin-top: -500px;");
+      out.println("margin-left: -200px;");
+      out.println("}");
+      out.println("</style>");
       out.println("<body>");
-      out.println("<title>withdraw</title>");
+      out.println("<div>");
+      out.println("<font COLOR='#7a0019'> <CENTER><h1>GopherBank Withdraw</font></h1><br>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-      out.println("<center><h2>"+Userobj.getFirstName()+", Please enter the following:</h2>");
-      out.println("ID to withdraw from: <INPUT TYPE=number Name='AcctID'>");
-      out.println("<select id='choose-acct' name=choose-acct>");
-      //out.println("<option value='"+accountObjType+"'>"+"Acct Type: "+accountObjType+" ID:"+Accountobj.getCustomerID()+"</option>");
-      //out.println("<option value='"+altAcctObjType+"'>"+"Acct Type: "+altAcctObjType+" ID:"+altAcctobj.getCustomerID()+"</option>");
-      out.println("<option value='acct1'>"+"Take from: "+accountObjID+" with type: "+accountObjType+"</option>");
-      out.println("<option value='acct1'>"+"Take from: "+altAcctObjID+" with type: "+altAcctObjType+"</option>");
-      out.println("</select>");
-      out.println("<label for='Amount'>Amount to Withdraw: </b></label>");
-      out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
-      //out.println("Amount Desired: <INPUT TYPE=number Name='Amount'>");
-      out.println("<INPUT TYPE='Submit' NAME='Withdraw' VALUE='Submit'></center>");
+      out.println("<h3>Available accounts for "+UserN+": </h3><br>");
+      int i = 1;
+      for(Account acct:acctVect){
+        if(acct.getCustomerName().equals(UserN)){
+          out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf(acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>"); 
+        }
+      }
+      out.println("<center><h3>Please complete the following:</h3>");
+      out.println("<font COLOR='#7a0019'>");
+      out.println("<h4>ID to deposit to: <INPUT TYPE=number Name='AcctID'></h4><br>");
+      out.println("<h4><label for='Amount'>Amount to Deposit: </label></h4>");
+      out.println("<h4><input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'></h4><br>");
+      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
+      out.println("</font>");
+      out.println("</div>");
       out.println("</body>");
-}
+      out.println("</html>");
+
+  }
 }

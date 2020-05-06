@@ -23,20 +23,43 @@ public class AddAnotherAccountScreen extends HttpServlet{
         userSession.setAttribute("action","Add User");
 
         out.println("<html>");
+        out.println("<style>");
+        out.println("body {");
+        out.println("background-image: url('portal.jpg');");
+        out.println("background-repeat: no-repeat;");
+        out.println("}");
+        out.println("div {");
+        out.println("height: 400px;");
+        out.println("width: 700px;");
+        out.println("background:#ffcc33;");
+        out.println("position: fixed;");
+        out.println("top: 50%;");
+        out.println("left: 50%;");
+        out.println("margin-top: -500px;");
+        out.println("margin-left: -200px;");
+        out.println("}");
+        out.println("</style>");
         out.println("<body>");
+        out.println("<div>");
         out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-        out.println("<CENTER><h1>Complete the following:</b1>");
-        out.println("<label for='type-of-account'><b><font COLOR='PURPLE'>Account Type:</font></b></label>");
+        out.println("<font COLOR='#7a0019'>");
+        out.println("<CENTER><h1>Complete the following:</b1><br><br></h1>");
+        out.println("</font>");
+        out.println("<h2>");
+        out.println("<label for='type-of-account'><b><font COLOR=#7a0019>Account Type:</font></b></label>");
         out.println("<select id='type-of-account' name='type-of-account'>");
         out.println("<option value='Checkings'>Checkings Account</option>");
         out.println("<option value='Savings'>Savings Account</option>");
         out.println("<option value='Money market'>Money market Account</option>");
         out.println("<option value='Retirement'>Retirement Account</option>");
         out.println("<option value='Brokerage'>Brokerage Account</option>");
-        out.println("</select>");
-        out.println("<label for='initial-deposit'><b><font COLOR='PURPLE'>Initial Deposit:</font></b></label>");
+        out.println("</select><br><br>");
+        out.println("<label for='initial-deposit'><b><font COLOR=#7a0019>Initial Deposit:</font></b></label>");
         out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='initial-deposit'><br><br>");
+        out.println("<h2>");
         out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
+        out.println("</div>");
         out.println("</body>");
+        out.println("</html>");
     }
 }
