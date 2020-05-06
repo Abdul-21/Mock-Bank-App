@@ -27,8 +27,16 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           break;
       }
     }
+      out.println("<head>");
+      response.setContentType("text/html");
+      response.setCharacterEncoding("UTF-8");
+      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      response.setHeader("Pragma", "no-cache");
+      response.setDateHeader("expires", 0);
+      response.setHeader("Expires", "0");
+      out.println("</head>");
       userSession.setAttribute("action","Withdraw");
-
+      
       out.println("<html>");
       out.println("<style>");
       out.println("body {");

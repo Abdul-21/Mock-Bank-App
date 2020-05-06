@@ -35,6 +35,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       writeToFile(newUser,newAccount);
 
       PrintWriter out = response.getWriter();
+      out.println("<head>");
+      response.setContentType("text/html");
+      response.setCharacterEncoding("UTF-8");
+      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      response.setHeader("Pragma", "no-cache");
+      response.setDateHeader("expires", 0);
+      response.setHeader("Expires", "0");
+      out.println("</head>");
       out.println("<html>");
       out.println("<style>");
       out.println("body {");

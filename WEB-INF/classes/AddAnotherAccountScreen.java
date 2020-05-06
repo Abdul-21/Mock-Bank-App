@@ -21,6 +21,14 @@ public class AddAnotherAccountScreen extends HttpServlet{
         String userName = request.getParameter("Username");
         userSession.setAttribute("Username",userName);
         userSession.setAttribute("action","Add User");
+        out.println("<head>");
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("expires", 0);
+        response.setHeader("Expires", "0");
+        out.println("</head>");
 
         out.println("<html>");
         out.println("<style>");
