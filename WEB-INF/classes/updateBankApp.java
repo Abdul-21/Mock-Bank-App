@@ -196,7 +196,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     }
 
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
-<<<<<<< HEAD
         HttpSession userSession = request.getSession();
          PrintWriter out = response.getWriter();
          logging log = new logging();
@@ -204,14 +203,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
          int toID =(int)Double.parseDouble(request.getParameter("toID"));
          double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
          String UserN = (String)userSession.getAttribute("currentUser");
-=======
-      HttpSession userSession = request.getSession();
-      PrintWriter out = response.getWriter();
-      int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
-      int toID =(int)Double.parseDouble(request.getParameter("toID"));
-      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
-      String UserN = (String)userSession.getAttribute("currentUser");
->>>>>>> e12cf7eb87f4482ace8b9a3bf970df548d571b7f
 
          Vector <Account> acctVect = new Vector<Account>();
          ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
