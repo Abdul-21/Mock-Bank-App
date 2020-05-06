@@ -16,7 +16,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         PrintWriter out =response.getWriter();
         HttpSession userSession = request.getSession();
         String UserN = (String)userSession.getAttribute("currentUser");
-        Vector <Account> acctVect = new Vector<Account>(); 
+        Vector <Account> acctVect = new Vector<Account>();
         ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
         while(true){
             try{
