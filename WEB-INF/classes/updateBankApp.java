@@ -138,48 +138,50 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
 
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
-      PrintWriter out =response.getWriter();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
+         PrintWriter out = response.getWriter();
+         int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
+         int toID =(int)Double.parseDouble(request.getParameter("toID"));
+         double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
+         String UserN = (String)userSession.getAttribute("currentUser");
 
-      int altAcctObjID = (int)altAcctobj.getCustomerID();
-      int AccountObjID = (int)Accountobj.getCustomerID();
+         Vector <Account> acctVect = new Vector<Account>();
+         ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+         while(true){
+           try{
+             Account Objs= (Account)acctObjects.readObject();
+             acctVect.addElement(Objs);
+           }catch(Exception e){
+             acctObjects.close();
+             break;
+         }
+       }
+         File acctFile = new File("acctFile.txt");
+         FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+         ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
 
-      int fromID =Integer.parseInt(request.getParameter("fromID"));
-      int toID =Integer.parseInt(request.getParameter("toID"));
-      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
-
-      //Assign ID to proper account
-      if(fromID == altAcctObjID){
-        double bal = Accountobj.getBalance();
-        //Ensures that there is sufficient funds
-        if(amountToTransfer > bal){
-          out.println("INSUFFICIENT BALANCE");
-        }
-        //There is enough funds now to transfer
-        else{
-          Accountobj.withdraw(amountToTransfer);
-          altAcctobj.deposit(amountToTransfer);
-          overWriteAccount(Accountobj,response,request);
-          overWriteAccount(altAcctobj,response,request);
-
-        }
-      }
-      else if(fromID == altAcctObjID){
-        double bal = altAcctobj.getBalance();
-        if(amountToTransfer > bal){
-          out.println("INSUFFICIENT BALANCE");
-        }
-        else{
-          altAcctobj.withdraw(amountToTransfer);
-          Accountobj.deposit(amountToTransfer);
-          overWriteAccount(Accountobj,response,request);
-          overWriteAccount(altAcctobj,response,request);
-
-        }
-      }
-
+         for(Account acct:acctVect){
+           int chosenID = (int)acct.getCustomerID();
+           if(chosenID == fromID){
+             double bal = acct.getBalance();
+             if(amountToTransfer > bal){
+               out.println("<html>");
+               out.println("<body>");
+               out.println("<CENTER><h1>INSUFFICIENT BALANCE</b1>");
+               out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+               out.println("</body>");
+               return;
+             }
+             acct.withdraw(amountToTransfer);
+           }
+           else if(chosenID == toID){
+             acct.deposit(amountToTransfer);
+           }
+         }
+         for(Account acct:acctVect){
+           acctWrite.writeObject(acct);
+         }
+         acctWrite.close();
+         showacct(UserN,response);
     }
     private void writeToFile(Account newAccount) throws IOException{
         File acctFile = new File("acctFile.txt");//object files for other class to get account data
@@ -202,29 +204,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         acctWrite.close();
       }
 
-    private void overWriteAccount(Account accountToOverwrite, HttpServletResponse response, HttpServletRequest request) throws IOException{
-
-      HttpSession userSession = request.getSession();
-      PrintWriter out = response.getWriter();
-      Account Accountobj=(Account)userSession.getAttribute("currentUserAccount");
-      User Userobj= (User)userSession.getAttribute("currentUserObj");
-      Account altAcctobj=(Account)userSession.getAttribute("altAcct");
-
-      File selectedFile = new File(" ");
-      if(accountToOverwrite == Accountobj){
-        selectedFile = new File("userFile.txt");//object files for other class to get user data
-      }
-      else if(accountToOverwrite == altAcctobj){
-        selectedFile = new File("altAcctFile.txt");//object files for other class to get account data
-      }
-
-      FileOutputStream selectedOutFile =  new FileOutputStream(selectedFile,true);
-
-      AppendingObjectOutputStream selectWrite = new AppendingObjectOutputStream(selectedOutFile);
-
-      selectWrite.writeObject(accountToOverwrite);
-      selectWrite.close();
-    }
     public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
       Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
