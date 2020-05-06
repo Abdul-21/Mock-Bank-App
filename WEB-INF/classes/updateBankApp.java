@@ -31,10 +31,11 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
     }
     public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
+    PrintWriter out = response.getWriter();
      HttpSession userSession = request.getSession();
      String UserN = (String)userSession.getAttribute("currentUser");
      double AcctID=Double.parseDouble(request.getParameter("AcctID"));
-     Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+     Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
      while(true){
        try{
@@ -48,9 +49,17 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
    File acctFile = new File("acctFile.txt");
    FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
    ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+   out.println("<H1>hello</H1>");
    for(Account acct:acctVect){
      if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
-       acctVect.remove(acct);
+       if(acct.getBalance()==0){
+         acctVect.remove(acct);
+       }else{
+       out.println("<div>");
+       out.println("Invalid! You don't have enough money in your account");
+       out.println("</div>");
+       break;
+     }
      }
    }
    for(Account acct:acctVect){
@@ -112,7 +121,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -151,7 +160,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -271,7 +280,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       selectWrite.close();
     }
     public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
