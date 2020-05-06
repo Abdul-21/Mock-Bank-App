@@ -327,6 +327,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='TransferMoney'>Transfer Money</button>");
       out.println("<button formaction='deleteAccount'>Close Account</button>");
       out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("<button formaction='checkHistory'>Check account history</button>");
       out.println("<br><button formaction='index.html'>Log Out</button>");
       out.println("</form>");
       out.println("</div>");

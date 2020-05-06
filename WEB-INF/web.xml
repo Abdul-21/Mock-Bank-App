@@ -73,4 +73,12 @@
   <servlet-name>deleteAccount</servlet-name>
   <url-pattern>/deleteAccount</url-pattern>
 </servlet-mapping>
+<servlet>
+  <servlet-name>checkHistory</servlet-name>
+  <servlet-class>checkHistory</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>checkHistory</servlet-name>
+  <url-pattern>/checkHistory</url-pattern>
+</servlet-mapping>
 </web-app>
