@@ -54,6 +54,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("width: 700px;");
       out.println("background:#ffcc33;");
       out.println("position: fixed;");
+      out.println("overflow: scroll;");
       out.println("top: 50%;");
       out.println("left: 50%;");
       out.println("margin-top: -500px;");

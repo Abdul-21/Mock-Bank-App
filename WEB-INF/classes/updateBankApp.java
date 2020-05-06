@@ -92,7 +92,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       newAccount.deposit(amount);
       newAccount.setCustomerName(Userobj.getUserName());
       writeToFile(newAccount);
-      log.logact("Account ID: "+String.valueOf((int)newAccount.getCustomerID()+" for username"+UserN+" has been created with initial deposit of $"+String.valueOf(amount)));
+      log.logact("Account ID: "+String.valueOf((int)newAccount.getCustomerID()+" for username "+UserN+" has been created with initial deposit of $"+String.valueOf(amount)));
       out.println("<html>");
       out.println("<style>");
       out.println("body {");
@@ -104,6 +104,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("width: 700px;");
       out.println("background:#ffcc33;");
       out.println("position: fixed;");
+      out.println("overflow: scroll;");
       out.println("top: 50%;");
       out.println("left: 50%;");
       out.println("margin-top: -500px;");
@@ -330,6 +331,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='checkHistory'>Check account history</button>");
       out.println("<br><button formaction='index.html'>Log Out</button>");
       out.println("</form>");
+      out.println("<a href='javascript:history.back()'>Go Back</a>");
       out.println("</div>");
       out.println("</body>");
     }

@@ -21,6 +21,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
   		try {
         out.println("<html>");
         out.println("<html>");
+        out.println("<head>");
+        response.setContentType("text/html");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("expires", 0);
+        response.setHeader("Expires", "0");
+        out.println("</head>");
         out.println("<style>");
         out.println("body {");
         out.println("background-image: url('portal.jpg');");
@@ -31,6 +39,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         out.println("width: 550px;");
         out.println("background:#ffcc33;");
         out.println("position: fixed;");
+        out.println("overflow: scroll;");
         out.println("top: 50%;");
         out.println("left: 50%;");
         out.println("margin-top: -500px;");
@@ -48,7 +57,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
   				if(transction.contains(UserN))
   					out.println("<br>"+transction+"<br>");
   			}
-  			reader.close();
+        reader.close();
+        out.println("<br>");
+        out.println("<br>");
         out.println("<button formaction='withdraw'>Withdraw</button>");
         out.println("<button formaction='deposit'>Deposit</button>");
         out.println("<button formaction='TransferMoney'>Transfer Money</button>");

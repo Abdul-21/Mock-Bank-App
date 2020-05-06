@@ -49,6 +49,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("width: 550px;");
       out.println("background:#ffcc33;");
       out.println("position: fixed;");
+      out.println("overflow: scroll;");
       out.println("top: 50%;");
       out.println("left: 50%;");
       out.println("margin-top: -500px;");
@@ -57,14 +58,21 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</style>");
       out.println("<body>");
       out.println("<div>");
+      out.println("<font COLOR='#7a0019'> <CENTER><h1>Delete an Account</font></h1><br>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
+      out.println("<h3>Available accounts for "+UserN+": </h3><br>");
+      int i = 1;
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN)){
-          out.println("<h3>Account Type: "+acct.getacctType()+" with ID: "+String.valueOf(acct.getCustomerID()) + " and a balance of "+"$"+String.valueOf(acct.getBalance())+"</h3><br>");
+          out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf((int)acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>"); 
         }
       }
+      out.println("<font COLOR='#7a0019'>");
       out.println("<h3>ID of Acccount you would like to close: <INPUT TYPE=number Name='AcctID'></h3>");
+      out.println("</font>");
+      out.println("<br>");
       out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
+      out.println("</font>");
       out.println("</div>");
       out.println("</body>");
       out.println("</html>");
