@@ -30,12 +30,30 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         userSession.setAttribute("action","Transfer");
 
         out.println("<html>");
+        out.println("<style>");
+        out.println("body {");
+        out.println("background-image: url('portal.jpg');");
+        out.println("background-repeat: no-repeat;");
+        out.println("}");
+        out.println("div {");
+        out.println("height: 900px;");
+        out.println("width: 600px;");
+        out.println("background:#ffcc33;");
+        out.println("position: fixed;");
+        out.println("top: 50%;");
+        out.println("left: 50%;");
+        out.println("margin-top: -500px;");
+        out.println("margin-left: -200px;");
+        out.println("}");
+        out.println("</style>");
         out.println("<body>");
+        out.println("<div>");
         out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
-        out.println("<CENTER><h1>Transfer money screen</h1><br>");
+        out.println("<CENTER><h1>GopherBank Transfer</h1><br>");
         out.println("<h2>Available accounts: </h2><br>");
+        int i = 1;
         for(Account acct : acctVect){
-            out.println("<h2>Account Type: "+acct.getacctType()+" with ID: "+String.valueOf(acct.getCustomerID()) + " and a balance of "+"$"+String.valueOf(acct.getBalance())+"</h2><br>");
+            out.println("<h2>Account " +String.valueOf(i++)+"<br> ID: "+String.valueOf(acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h2>"); 
         }
         out.println("<h2>To finish the transfer enter the following: </h2><br>");
         out.println("ID to transfer from: <INPUT TYPE=number Name='fromID'><br>");
@@ -46,6 +64,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'><br><br>");
         out.println("<INPUT TYPE='Submit' NAME='submitTransfer' VALUE='Submit Transfer'></center>");
         out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+        out.println("</div>");
         out.println("</body>");
+        out.println("</html>");
     }
 }
+
+

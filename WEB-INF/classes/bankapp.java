@@ -70,62 +70,55 @@ public class bankapp extends HttpServlet {
     PrintWriter out = response.getWriter();
     double Total=0;
     out.println("<html>");
+    out.println("<style>");
+    out.println("body {");
+    out.println("background-image: url('portal.jpg');");
+    out.println("background-repeat: no-repeat;");
+    out.println("}");
+    out.println("div {");
+    out.println("height: 900px;");
+    out.println("width: 700px;");
+    out.println("background:#ffcc33;");
+    out.println("position: fixed;");
+    out.println("overflow: scroll;");
+    out.println("top: 50%;");
+    out.println("left: 50%;");
+    out.println("margin-top: -500px;");
+    out.println("margin-left: -200px;");
+    out.println("}");
+    out.println("</style>");
     out.println("<body>");
+    out.println("<div>");
     out.println("<FORM METHOD='POST'>");
-    out.println("<CENTER><h1>User account was Found!<br> Welcome "+userName+"</b1>");
+    out.println("<font COLOR='#7a0019'>");
+    out.println("<CENTER><h1>Welcome "+userName+"!"+"</h1>");
+    out.println("<h3>NOTE: Menu will be at bottom if too many accounts to fit</h3>");
+    out.println("</font>");
     for(Account acct:acctVect){
       if(acct.getCustomerName().equals(userName)){
         showmenu(acct,response);
         Total+=acct.getBalance();
       }
     }
-    out.println("<br><h2>Sum of all Balance: $"+Total+"</h2>");
+    out.println("<font COLOR='#7a0019'>");
+    out.println("<h2>Sum of all Balance: $"+Total+"</h2>");
+    out.println("</font>");
     out.println("<button formaction='withdraw'>Withdraw</button>");
     out.println("<button formaction='deposit'>Deposit</button>");
     out.println("<button formaction='TransferMoney'>Transfer Money</button>");
     out.println("<button formaction='deleteAccount'>Close Account</button>");
     out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
     out.println("</form>");
+    out.println("</div>");
     out.println("</body>");
   }
   public void showmenu(Account acct,HttpServletResponse response) throws IOException{
     PrintWriter out = response.getWriter();
-    out.println("<h2> Account Summary:"+acct.getacctType()+"</h2>");
-    out.println("<h2> Account ID:"+acct.getCustomerID()+"</h2>");
-    out.println("<h2> Account Balance: $"+acct.getBalance()+"</h2>");
-    out.println("<h2> Transaction History: </h2>");
-    out.println("<h2> Initial Deposit of $"+acct.getInitialDeposit()+"</h2>");
+    out.println("<h2> Account Summary:<font COLOR='#7a0019'>"+acct.getacctType()+"</font></h2>");
+    out.println("<h2> Account ID:<font COLOR='#7a0019'>"+acct.getCustomerID()+"</font></h2>");
+    out.println("<h2> Account Balance:<font COLOR='#7a0019'>$"+acct.getBalance()+"</font></h2>");
+    out.println("<h2> Transaction History:</h2>");
+    out.println("<h2> Initial Deposit of <font COLOR='#7a0019'>$"+acct.getInitialDeposit()+"</font></h2>");
     out.println("<br>");
   }
-  // public void addAccountToExisting(HttpServletResponse response) throws IOException,ServletException{
-  //   Account balternateAccount = new Account();
-  //   PrintWriter out =response.getWriter();
-  //   ObjectInputStream readAltAccount = new ObjectInputStream(new FileInputStream("altAcctFile.txt"));
-  //   while(true){
-  //     try{
-  //       balternateAccount = (Account)readAltAccount.readObject();
-  //     }catch(Exception e){
-  //       break;
-  //   }
-  // }
-  //   out.println("<html>");
-  //   out.println("<body>");
-  //   out.println("<FORM METHOD='POST' ACTION='AddAnotherAccountToUser'>");
-  //   out.println("<CENTER><h1>Complete the following:</b1>");
-  //
-  //   out.println("<label for='type-of-account'><b><font COLOR='PURPLE'>Account Type:</font></b></label>");
-  //   out.println("<select id='type-of-account' name='type-of-account'>");
-  //   out.println("<option value='Checkings'>Checkings Account</option>");
-  //   out.println("<option value='Savings'>Savings Account</option>");
-  //   out.println("<option value='Money market'>Money market Account</option>");
-  //   out.println("<option value='Retirement'>Retirement Account</option>");
-  //   out.println("<option value='Brokerage'>Brokerage Account</option>");
-  //   out.println("</select>");
-  //
-  //   out.println("<label for='initial-deposit'><b><font COLOR='PURPLE'>Initial Deposit:</font></b></label>");
-  //   out.println("<input type='text' placeholder='Dollar Amount(ex: $00.00)' name='initial-deposit'><br><br>");
-  //
-  //   out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
-  //   out.println("</body>");
-  // }
 }
