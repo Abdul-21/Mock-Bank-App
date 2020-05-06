@@ -141,10 +141,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
           if(acct.getBalance() < amount){
-            out.println("<div>");
-            out.println("Invalid! You don't have enough money in your account");
-            out.println("</div>");
+            out.println("<html>");
+            out.println("<body>");
             out.println("<CENTER><h1>Invalid! You don't have enough money in your account</b1>");
+            out.println("<a href='javascript:history.back()'>Go Back</a>");
+            out.println("</body>");
+            return;
           }else{
             acct.withdraw(amount);
             log.logact("Account ID: "+String.valueOf((int)acct.getCustomerID())+" with username "+UserN+" withdrew  $"+String.valueOf(amount));
