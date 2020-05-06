@@ -227,7 +227,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             out.println("<html>");
             out.println("<body>");
             out.println("<CENTER><h1>INSUFFICIENT BALANCE</b1>");
-            out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+            out.println("<a href='javascript:history.back()'>Go Back</a>");
             out.println("</body>");
             return;
           }
