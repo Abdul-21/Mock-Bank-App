@@ -36,6 +36,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     }
     public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
+      logging log = new logging();
       String UserN = (String)userSession.getAttribute("currentUser");
       int AcctID=(int)Double.parseDouble(request.getParameter("AcctID"));
 
@@ -57,6 +58,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     while(iter.hasNext()){
       int chosenID = (int)iter.next().getCustomerID();
       if(chosenID == AcctID){
+        log.logact("Account ID: "+String.valueOf(chosenID)+" with username"+UserN+" has been deleted");
         iter.remove();
       }
     }
@@ -70,9 +72,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
+      logging log = new logging();
       Random rand = new Random();
       Account newAccount = new Account();
-
+      String UserN = (String)userSession.getAttribute("currentUser");
       User Userobj= (User)userSession.getAttribute("currentUserObj");
       newAccount.setCustomerID(rand.nextInt(1000));
       String type = (String)request.getParameter("type-of-account");
@@ -81,8 +84,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       newAccount.setInitialDeposit(amount);
       newAccount.deposit(amount);
       newAccount.setCustomerName(Userobj.getUserName());
-
       writeToFile(newAccount);
+      log.logact("Account ID: "+String.valueOf((int)newAccount.getCustomerID()+" for username"+UserN+" has been created with initial deposit of $"+String.valueOf(amount)));
       out.println("<html>");
       out.println("<style>");
       out.println("body {");
@@ -117,6 +120,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     public void withdraw(HttpServletResponse response, HttpServletRequest request) throws IOException{
       HttpSession userSession = request.getSession();
       PrintWriter out =response.getWriter();
+      logging log = new logging();
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
@@ -145,6 +149,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             return;
           }else{
             acct.withdraw(amount);
+            log.logact("Account ID: "+String.valueOf((int)acct.getCustomerID())+" with username "+UserN+" withdrew  $"+String.valueOf(amount));
           }
           break;
         }
@@ -158,6 +163,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     public void Deposit(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out = response.getWriter();
       HttpSession userSession = request.getSession();
+      logging log = new logging();
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
@@ -178,6 +184,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
           acct.deposit(amount);
+          log.logact("Account ID: "+String.valueOf((int)acct.getCustomerID())+" with username "+UserN+" deposited $"+String.valueOf(amount));
           break;
         }
       }
@@ -189,12 +196,13 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     }
 
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
-      HttpSession userSession = request.getSession();
-      PrintWriter out = response.getWriter();
-      int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
-      int toID =(int)Double.parseDouble(request.getParameter("toID"));
-      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
-      String UserN = (String)userSession.getAttribute("currentUser");
+        HttpSession userSession = request.getSession();
+         PrintWriter out = response.getWriter();
+         logging log = new logging();
+         int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
+         int toID =(int)Double.parseDouble(request.getParameter("toID"));
+         double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
+         String UserN = (String)userSession.getAttribute("currentUser");
 
          Vector <Account> acctVect = new Vector<Account>();
          ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
@@ -224,6 +232,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             return;
           }
           acct.withdraw(amountToTransfer);
+          log.logact("Account ID: "+String.valueOf(fromID)+" with username "+UserN+" transferred $"+String.valueOf(amountToTransfer)+" to Account ID:"+ String.valueOf(toID));
         }
         else if(chosenID == toID){
           acct.deposit(amountToTransfer);
