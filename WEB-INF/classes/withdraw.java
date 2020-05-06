@@ -57,6 +57,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf((int)acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>");
         }
       }
+      
       out.println("<center><h3>Please complete the following:</h3>");
       out.println("<font COLOR='#7a0019'>");
       out.println("<h4>ID to withdraw from: <INPUT TYPE=number Name='AcctID'></h4><br>");
