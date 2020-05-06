@@ -14,10 +14,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
-      PrintWriter out =response.getWriter();;
-      //out.println("<html>");
-      //out.println("<body>");
-      //out.println("<FORM METHOD='POST'>");
+      PrintWriter out =response.getWriter();
+
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -34,15 +32,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         Transfer(response, request);
       }
       if(!userSession.getAttribute("action").equals("Add User")){
-      /*
-      out.println("<button formaction='withdraw'>Withdraw</button>");
-      out.println("<button formaction='deposit'>Deposit</button>");
-      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-      out.println("<button formaction='deleteAccount'>Close Account</button>");
-      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
-      out.println("</form>");
-      out.println("</body>");
-      */
     }
     }
     public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
@@ -155,6 +144,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             out.println("<div>");
             out.println("Invalid! You don't have enough money in your account");
             out.println("</div>");
+            out.println("<CENTER><h1>Invalid! You don't have enough money in your account</b1>");
           }else{
             acct.withdraw(amount);
             log.logact("Account ID: "+String.valueOf((int)acct.getCustomerID())+" with username "+UserN+" withdrew  $"+String.valueOf(amount));
@@ -204,6 +194,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     }
 
     public void Transfer(HttpServletResponse response, HttpServletRequest request) throws IOException{
+<<<<<<< HEAD
         HttpSession userSession = request.getSession();
          PrintWriter out = response.getWriter();
          logging log = new logging();
@@ -211,6 +202,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
          int toID =(int)Double.parseDouble(request.getParameter("toID"));
          double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
          String UserN = (String)userSession.getAttribute("currentUser");
+=======
+      HttpSession userSession = request.getSession();
+      PrintWriter out = response.getWriter();
+      int fromID =(int)Double.parseDouble(request.getParameter("fromID"));
+      int toID =(int)Double.parseDouble(request.getParameter("toID"));
+      double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
+      String UserN = (String)userSession.getAttribute("currentUser");
+>>>>>>> e12cf7eb87f4482ace8b9a3bf970df548d571b7f
 
          Vector <Account> acctVect = new Vector<Account>();
          ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
@@ -328,6 +327,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='TransferMoney'>Transfer Money</button>");
       out.println("<button formaction='deleteAccount'>Close Account</button>");
       out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("<br><button formaction='index.html'>Log Out</button>");
       out.println("</form>");
       out.println("</div>");
       out.println("</body>");
@@ -335,7 +335,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     public void showmenu(Account acct,HttpServletResponse response) throws IOException{
       PrintWriter out = response.getWriter();
       out.println("<h2> Account Summary:<font COLOR='#7a0019'>"+acct.getacctType()+"</font></h2>");
-      out.println("<h2> Account ID:<font COLOR='#7a0019'>"+acct.getCustomerID()+"</font></h2>");
+      out.println("<h2> Account ID:<font COLOR='#7a0019'>"+String.valueOf((int)acct.getCustomerID())+"</font></h2>");
       out.println("<h2> Account Balance:<font COLOR='#7a0019'>$"+acct.getBalance()+"</font></h2>");
       out.println("<h2> Transaction History:</h2>");
       out.println("<h2> Initial Deposit of <font COLOR='#7a0019'>$"+acct.getInitialDeposit()+"</font></h2>");

@@ -15,6 +15,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     {
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
+
+      userSession.setAttribute("action","Delete Account");
       String UserN = (String)userSession.getAttribute("currentUser");
       Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
@@ -27,7 +29,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           break;
       }
     }
-
       userSession.setAttribute("action","Delete Account");
       out.println("<html>");
       out.println("<style>");

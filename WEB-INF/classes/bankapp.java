@@ -108,6 +108,7 @@ public class bankapp extends HttpServlet {
     out.println("<button formaction='TransferMoney'>Transfer Money</button>");
     out.println("<button formaction='deleteAccount'>Close Account</button>");
     out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+    out.println("<br><button formaction='index.html'>Log Out</button>");
     out.println("</form>");
     out.println("</div>");
     out.println("</body>");
@@ -115,7 +116,7 @@ public class bankapp extends HttpServlet {
   public void showmenu(Account acct,HttpServletResponse response) throws IOException{
     PrintWriter out = response.getWriter();
     out.println("<h2> Account Summary:<font COLOR='#7a0019'>"+acct.getacctType()+"</font></h2>");
-    out.println("<h2> Account ID:<font COLOR='#7a0019'>"+acct.getCustomerID()+"</font></h2>");
+    out.println("<h2> Account ID:<font COLOR='#7a0019'>"+String.valueOf((int)acct.getCustomerID())+"</font></h2>");
     out.println("<h2> Account Balance:<font COLOR='#7a0019'>$"+acct.getBalance()+"</font></h2>");
     out.println("<h2> Transaction History:</h2>");
     out.println("<h2> Initial Deposit of <font COLOR='#7a0019'>$"+acct.getInitialDeposit()+"</font></h2>");
