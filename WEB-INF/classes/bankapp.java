@@ -106,6 +106,7 @@ public class bankapp extends HttpServlet {
     out.println("<button formaction='withdraw'>Withdraw</button>");
     out.println("<button formaction='deposit'>Deposit</button>");
     out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+    out.println("<button formaction='deleteAccount'>Close Account</button>");
     out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
     out.println("</form>");
     out.println("</div>");

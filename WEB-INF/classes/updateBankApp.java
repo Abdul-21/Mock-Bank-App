@@ -23,12 +23,42 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Add User")){
         adduser(response,request);
       }
-      else if(userSession.getAttribute("action").equals("Close Account"))
+      else if(userSession.getAttribute("action").equals("Delete Account")){
         CloseAcct(response, request);
+      }
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
     }
+    public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
+     HttpSession userSession = request.getSession();
+     String UserN = (String)userSession.getAttribute("currentUser");
+     double AcctID=Double.parseDouble(request.getParameter("AcctID"));
+     Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+     ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+     while(true){
+       try{
+         Account Objs= (Account)acctObjects.readObject();
+         acctVect.addElement(Objs);
+       }catch(Exception e){
+         acctObjects.close();
+         break;
+     }
+   }
+   File acctFile = new File("acctFile.txt");
+   FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+   ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+   for(Account acct:acctVect){
+     if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+       acctVect.remove(acct);
+     }
+   }
+   for(Account acct:acctVect){
+     acctWrite.writeObject(acct);
+   }
+   acctWrite.close();
+   showacct(UserN,response);
+   }
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
@@ -293,6 +323,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='withdraw'>Withdraw</button>");
       out.println("<button formaction='deposit'>Deposit</button>");
       out.println("<button formaction='TransferMoney'>Transfer Money</button>");
+      out.println("<button formaction='deleteAccount'>Close Account</button>");
       out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
       out.println("</form>");
       out.println("</div>");

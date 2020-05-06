@@ -73,4 +73,12 @@
   <servlet-name>deposit</servlet-name>
   <url-pattern>/deposit</url-pattern>
 </servlet-mapping>
+<servlet>
+  <servlet-name>deleteAccount</servlet-name>
+  <servlet-class>deleteAccount</servlet-class>
+</servlet>
+<servlet-mapping>
+  <servlet-name>deleteAccount</servlet-name>
+  <url-pattern>/deleteAccount</url-pattern>
+</servlet-mapping>
 </web-app>
