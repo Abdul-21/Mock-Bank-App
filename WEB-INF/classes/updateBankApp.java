@@ -15,7 +15,14 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     {
       HttpSession userSession = request.getSession();
       PrintWriter out =response.getWriter();
-
+      out.println("<head>");
+      response.setContentType("text/html");
+      response.setCharacterEncoding("UTF-8");
+      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      response.setHeader("Pragma", "no-cache");
+      response.setDateHeader("expires", 0);
+      response.setHeader("Expires", "0");
+      out.println("</head>");
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -58,7 +65,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     while(iter.hasNext()){
       int chosenID = (int)iter.next().getCustomerID();
       if(chosenID == AcctID){
-        log.logact("Account ID: "+String.valueOf(chosenID)+" with username"+UserN+" has been deleted");
+        log.logact("Account ID: "+String.valueOf(chosenID)+" with username "+UserN+" has been deleted");
         iter.remove();
       }
     }

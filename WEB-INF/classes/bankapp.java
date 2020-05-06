@@ -22,6 +22,15 @@ public class bankapp extends HttpServlet {
       String passWord = request.getParameter("Password");
       userSession.setAttribute("currentUser",UserN);
 
+      out.println("<head>");
+      response.setContentType("text/html");
+      response.setCharacterEncoding("UTF-8");
+      response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+      response.setHeader("Pragma", "no-cache");
+      response.setDateHeader("expires", 0);
+      response.setHeader("Expires", "0");
+      out.println("</head>");
+
       HashMap<String, User> UserHmap = new HashMap<String, User>(); //Hold username, and user object with info.
       ObjectInputStream UserObjects = new ObjectInputStream(new FileInputStream("userFile.txt")); //Read profile
       while(true){
