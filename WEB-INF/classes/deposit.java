@@ -55,7 +55,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       int i = 1;
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN)){
-          out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf(acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>"); 
+          out.println("<h4><font COLOR='#7a0019'>Account " +String.valueOf(i++)+"</font><br> ID: "+String.valueOf((int)acct.getCustomerID())+" | Type: "+acct.getacctType()+" | Balance: "+acct.getBalance()+"|</h4>"); 
         }
       }
       out.println("<center><h3>"+UserN+", Please complete the following:</h3>");

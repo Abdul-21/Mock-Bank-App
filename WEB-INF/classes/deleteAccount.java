@@ -15,10 +15,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     {
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
-<<<<<<< HEAD
-=======
+
       userSession.setAttribute("action","Delete Account");
->>>>>>> b1449a35200d4889ce2752c99f32228695bc73f4
       String UserN = (String)userSession.getAttribute("currentUser");
       Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
@@ -31,8 +29,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
           break;
       }
     }
-
-<<<<<<< HEAD
       userSession.setAttribute("action","Delete Account");
       out.println("<html>");
       out.println("<style>");
@@ -53,11 +49,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</style>");
       out.println("<body>");
       out.println("<div>");
-=======
-
       out.println("<html>");
       out.println("<body>");
->>>>>>> b1449a35200d4889ce2752c99f32228695bc73f4
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN)){
@@ -66,14 +59,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
       out.println("<h3>ID of Acccount you would like to close: <INPUT TYPE=number Name='AcctID'></h3>");
       out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
-<<<<<<< HEAD
-      out.println("</div>");
       out.println("</body>");
-      out.println("</html>");
-=======
-      out.println("</body>");
-
->>>>>>> b1449a35200d4889ce2752c99f32228695bc73f4
     }
 
 }
