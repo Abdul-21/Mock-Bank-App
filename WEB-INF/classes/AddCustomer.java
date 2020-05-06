@@ -17,7 +17,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       Account newAccount= new Account();
       Random rand = new Random();
       double id= rand.nextInt(1000);
-      
+
 
       newUser.setFirstName(request.getParameter("First Name"));
       newUser.setLastName(request.getParameter("Last Name"));
