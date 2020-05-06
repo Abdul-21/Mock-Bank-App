@@ -49,13 +49,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
   					out.println("<br>"+transction+"<br>");
   			}
   			reader.close();
-        out.println("<button formaction='withdraw'>Withdraw</button>");
-        out.println("<button formaction='deposit'>Deposit</button>");
-        out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-        out.println("<button formaction='deleteAccount'>Close Account</button>");
-        out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
         out.println("<br><button formaction='index.html'>Log Out</button>");
-        out.println("</form>");
         out.println("</div>");
         out.println("</body>");
   		} catch (Exception e) {
