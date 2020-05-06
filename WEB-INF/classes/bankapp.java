@@ -55,8 +55,9 @@ public class bankapp extends HttpServlet {
     }catch(Exception e){
           out.println("<html>");
           out.println("<body>");
-          out.println("<img src=\"https://i.kym-cdn.com/photos/images/facebook/001/517/016/cf1.jpg\" alt=\"Waling out here\">");
-          out.println("<br>Exception thrown:"+e+"<br>");
+          out.println("<br><h3>Exception thrown:"+e+"</h3><br>");
+          out.println("<a href='javascript:history.back()'>Go Back</a>");
+          out.println("<img src=\"https://image.flaticon.com/icons/svg/569/569575.svg\"  alt=\"ERROR IMAGE\" style=\"width:500px;height:500px;\">");
           out.println("</body>");
     			return;
     }
