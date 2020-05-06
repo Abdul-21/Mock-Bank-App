@@ -49,7 +49,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
    File acctFile = new File("acctFile.txt");
    FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
    ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
-   out.println("<H1>hello</H1>");
    for(Account acct:acctVect){
      if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
        if(acct.getBalance()==0){
