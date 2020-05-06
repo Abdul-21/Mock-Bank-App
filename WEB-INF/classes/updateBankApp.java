@@ -71,23 +71,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         iter.remove();
       }
     }
-
-    /*
-    for(Account acct:acctVect){
-      //if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
-        int chosenID = (int)acct.getCustomerID();
-      if(chosenID == AcctID){
-        acctVect.remove(acct);
-      }
-    }
-    */
     for(Account acct:acctVect){
       acctWrite.writeObject(acct);
     }
     acctWrite.close();
     showacct(UserN,response);
     }
-
 
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
@@ -142,7 +131,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -180,7 +169,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -215,21 +204,20 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
       String UserN = (String)userSession.getAttribute("currentUser");
 
-      Vector <Account> acctVect = new Vector<Account>();
-      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
-      while(true){
-        try{
-          Account Objs= (Account)acctObjects.readObject();
-          acctVect.addElement(Objs);
-        }catch(Exception e){
-          acctObjects.close();
-          break;
-      }
-    }
-      File acctFile = new File("acctFile.txt");
-      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
-      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
-
+         Vector <Account> acctVect = new Vector<Account>();
+         ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+         while(true){
+           try{
+             Account Objs= (Account)acctObjects.readObject();
+             acctVect.addElement(Objs);
+           }catch(Exception e){
+             acctObjects.close();
+             break;
+         }
+       }
+         File acctFile = new File("acctFile.txt");
+         FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+         ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
 
       for(Account acct:acctVect){
         int chosenID = (int)acct.getCustomerID();
@@ -239,7 +227,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
             out.println("<html>");
             out.println("<body>");
             out.println("<CENTER><h1>INSUFFICIENT BALANCE</b1>");
-            out.println("<INPUT TYPE=Button onClick=\"parent.location = 'index.html'\" value=\"Logout\"><br><br");
+            out.println("<a href='javascript:history.back()'>Go Back</a>");
             out.println("</body>");
             return;
           }
@@ -279,7 +267,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
 
     public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
-      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
+      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{

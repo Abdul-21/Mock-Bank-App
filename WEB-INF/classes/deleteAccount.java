@@ -49,8 +49,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("</style>");
       out.println("<body>");
       out.println("<div>");
-      out.println("<html>");
-      out.println("<body>");
       out.println("<FORM METHOD='POST' ACTION='updateBankApp'>");
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN)){
@@ -59,7 +57,9 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
       out.println("<h3>ID of Acccount you would like to close: <INPUT TYPE=number Name='AcctID'></h3>");
       out.println("<INPUT TYPE='Submit' NAME='Submit' VALUE='Submit'></center>");
+      out.println("</div>");
       out.println("</body>");
+      out.println("</html>");
     }
 
 }
