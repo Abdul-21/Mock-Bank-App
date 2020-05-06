@@ -23,10 +23,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       else if(userSession.getAttribute("action").equals("Add User")){
         adduser(response,request);
       }
-      // else if(userSession.getAttribute("action").equals("Close Account"))
-      //   CloseAcct(response, request);
-      // else if(userSession.getAttribute("action").equals("New Account"))
-      //   OpenAcct(request);
+      else if(userSession.getAttribute("action").equals("Close Account"))
+        CloseAcct(response, request);
       else if(userSession.getAttribute("action").equals("Transfer")){
         Transfer(response, request);
       }
@@ -157,7 +155,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
       String UserN = (String)userSession.getAttribute("currentUser");
 
-      Vector <Account> acctVect = new Vector<Account>(); 
+      Vector <Account> acctVect = new Vector<Account>();
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
