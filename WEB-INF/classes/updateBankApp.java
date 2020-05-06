@@ -14,10 +14,8 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         throws IOException,ServletException
     {
       HttpSession userSession = request.getSession();
-      PrintWriter out =response.getWriter();;
-      //out.println("<html>");
-      //out.println("<body>");
-      //out.println("<FORM METHOD='POST'>");
+      PrintWriter out =response.getWriter();
+
       if(userSession.getAttribute("action").equals("Withdraw")){
         withdraw(response, request);
       }
@@ -34,15 +32,6 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         Transfer(response, request);
       }
       if(!userSession.getAttribute("action").equals("Add User")){
-      /*
-      out.println("<button formaction='withdraw'>Withdraw</button>");
-      out.println("<button formaction='deposit'>Deposit</button>");
-      out.println("<button formaction='TransferMoney'>Transfer Money</button>");
-      out.println("<button formaction='deleteAccount'>Close Account</button>");
-      out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
-      out.println("</form>");
-      out.println("</body>");
-      */
     }
     }
     public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
@@ -148,9 +137,12 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       for(Account acct:acctVect){
         if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
           if(acct.getBalance() < amount){
-            out.println("<div>");
-            out.println("Invalid! You don't have enough money in your account");
-            out.println("</div>");
+            out.println("<html>");
+            out.println("<body>");
+            out.println("<CENTER><h1>Invalid! You don't have enough money in your account</b1>");
+            out.println("<a href='javascript:history.back()'>Go Back</a>");
+            out.println("</body>");
+            return;
           }else{
             acct.withdraw(amount);
           }
@@ -319,6 +311,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       out.println("<button formaction='TransferMoney'>Transfer Money</button>");
       out.println("<button formaction='deleteAccount'>Close Account</button>");
       out.println("<button formaction='AddAnotherAccountScreen'>Create another account</button>");
+      out.println("<br><button formaction='index.html'>Log Out</button>");
       out.println("</form>");
       out.println("</div>");
       out.println("</body>");
