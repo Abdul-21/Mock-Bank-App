@@ -71,6 +71,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
         iter.remove();
       }
     }
+<<<<<<< HEAD
     /*
     for(Account acct:acctVect){
       //if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
@@ -87,6 +88,46 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
     showacct(UserN,response);
     }
 
+=======
+    public void CloseAcct(HttpServletResponse response,HttpServletRequest request) throws IOException{
+    PrintWriter out = response.getWriter();
+     HttpSession userSession = request.getSession();
+     String UserN = (String)userSession.getAttribute("currentUser");
+     double AcctID=Double.parseDouble(request.getParameter("AcctID"));
+     Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
+     ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+     while(true){
+       try{
+         Account Objs= (Account)acctObjects.readObject();
+         acctVect.addElement(Objs);
+       }catch(Exception e){
+         acctObjects.close();
+         break;
+     }
+   }
+   File acctFile = new File("acctFile.txt");
+   FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+   ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+   out.println("<H1>hello</H1>");
+   for(Account acct:acctVect){
+     if(acct.getCustomerName().equals(UserN) && acct.getCustomerID()==(AcctID)){
+       if(acct.getBalance()==0){
+         acctVect.remove(acct);
+       }else{
+       out.println("<div>");
+       out.println("Invalid! You don't have enough money in your account");
+       out.println("</div>");
+       break;
+     }
+     }
+   }
+   for(Account acct:acctVect){
+     acctWrite.writeObject(acct);
+   }
+   acctWrite.close();
+   showacct(UserN,response);
+   }
+>>>>>>> b1449a35200d4889ce2752c99f32228695bc73f4
     public void adduser(HttpServletResponse response,HttpServletRequest request) throws IOException{
       PrintWriter out =response.getWriter();
       HttpSession userSession = request.getSession();
@@ -140,7 +181,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -178,7 +219,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       double amount=Double.parseDouble(request.getParameter("Amount"));
       double AcctID=Double.parseDouble(request.getParameter("AcctID"));
       String UserN = (String)userSession.getAttribute("currentUser");
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{
@@ -213,6 +254,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
          double amountToTransfer = Double.parseDouble(request.getParameter("Amount"));
          String UserN = (String)userSession.getAttribute("currentUser");
 
+<<<<<<< HEAD
          Vector <Account> acctVect = new Vector<Account>();
          ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
          while(true){
@@ -227,6 +269,22 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
          File acctFile = new File("acctFile.txt");
          FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
          ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+=======
+      Vector <Account> acctVect = new Vector<Account>();
+      ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
+      while(true){
+        try{
+          Account Objs= (Account)acctObjects.readObject();
+          acctVect.addElement(Objs);
+        }catch(Exception e){
+          acctObjects.close();
+          break;
+      }
+    }
+      File acctFile = new File("acctFile.txt");
+      FileOutputStream acctOutFile =  new FileOutputStream(acctFile);
+      ObjectOutputStream acctWrite = new ObjectOutputStream(acctOutFile);
+>>>>>>> b1449a35200d4889ce2752c99f32228695bc73f4
 
       for(Account acct:acctVect){
         int chosenID = (int)acct.getCustomerID();
@@ -276,7 +334,7 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
 
     public void showacct(String userName, HttpServletResponse response) throws FileNotFoundException, IOException{
-      Vector <Account> acctVect = new Vector<Account>(); //Hold username, and user object with info.
+      Vector <Account> acctVect = new Vector<Account>(); //Changing vector to hold account objects
       ObjectInputStream acctObjects = new ObjectInputStream(new FileInputStream("acctFile.txt")); //Read profile
       while(true){
         try{

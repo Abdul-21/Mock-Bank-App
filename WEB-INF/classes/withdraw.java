@@ -59,10 +59,10 @@ public void doGet(HttpServletRequest request, HttpServletResponse response) thro
       }
       out.println("<center><h3>Please complete the following:</h3>");
       out.println("<font COLOR='#7a0019'>");
-      out.println("<h4>ID to deposit to: <INPUT TYPE=number Name='AcctID'></h4><br>");
-      out.println("<h4><label for='Amount'>Amount to Deposit: </label></h4>");
+      out.println("<h4>ID to withdraw to: <INPUT TYPE=number Name='AcctID'></h4><br>");
+      out.println("<h4><label for='Amount'>Amount to Withdraw: </label></h4>");
       out.println("<h4><input type='text' placeholder='Dollar Amount(ex: $00.00)' name='Amount'></h4><br>");
-      out.println("<INPUT TYPE='Submit' NAME='Deposit' VALUE='Submit'></center>");
+      out.println("<INPUT TYPE='Submit' NAME='Withdraw' VALUE='Submit'></center>");
       out.println("</font>");
       out.println("</div>");
       out.println("</body>");
